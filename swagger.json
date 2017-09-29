@@ -116,6 +116,9 @@
         "security" : [ {
           "HTTP_BASIC" : [ ]
         } ]
+      },
+      "x-restlet" : {
+        "section" : "Companies"
       }
     },
     "/companies/{companyid}" : {
@@ -194,7 +197,10 @@
         "type" : "string",
         "description" : "Identifier of the Company",
         "x-example" : "0e8c9fb0-ad98-11e6-bf2e-47644ada7c0f"
-      } ]
+      } ],
+      "x-restlet" : {
+        "section" : "Peoples"
+      }
     },
     "/peoples.contactGroups" : {
       "get" : {
@@ -204,15 +210,46 @@
             "description" : "Status 200"
           }
         }
+      },
+      "x-restlet" : {
+        "section" : "Peoples"
       }
     },
-    "/peoples.persons" : { },
-    "/peoples.users" : { },
-    "/profiles.skills" : { },
-    "/profiles.competencies" : { },
-    "/profiles.occupations" : { },
-    "/profiles.studies" : { },
-    "/profiles.languages" : { },
+    "/peoples.persons" : {
+      "x-restlet" : {
+        "section" : "Peoples"
+      }
+    },
+    "/peoples.users" : {
+      "x-restlet" : {
+        "section" : "Peoples"
+      }
+    },
+    "/profiles.skills" : {
+      "x-restlet" : {
+        "section" : "Profiles"
+      }
+    },
+    "/profiles.competencies" : {
+      "x-restlet" : {
+        "section" : "Profiles"
+      }
+    },
+    "/profiles.occupations" : {
+      "x-restlet" : {
+        "section" : "Profiles"
+      }
+    },
+    "/profiles.studies" : {
+      "x-restlet" : {
+        "section" : "Profiles"
+      }
+    },
+    "/profiles.languages" : {
+      "x-restlet" : {
+        "section" : "Profiles"
+      }
+    },
     "/services" : {
       "get" : {
         "summary" : "services.disable",
@@ -256,6 +293,9 @@
           }
         },
         "security" : [ ]
+      },
+      "x-restlet" : {
+        "section" : "Services"
       }
     },
     "/services/{serviceName}:disable" : {
@@ -292,7 +332,10 @@
         "in" : "path",
         "required" : true,
         "type" : "string"
-      } ]
+      } ],
+      "x-restlet" : {
+        "section" : "Services"
+      }
     },
     "/services/{serviceName}:enable" : {
       "post" : {
@@ -325,7 +368,10 @@
         "in" : "path",
         "required" : true,
         "type" : "string"
-      } ]
+      } ],
+      "x-restlet" : {
+        "section" : "Services"
+      }
     },
     "/services/{serviceName}/config" : {
       "get" : {
@@ -349,7 +395,10 @@
         "in" : "path",
         "required" : true,
         "type" : "string"
-      } ]
+      } ],
+      "x-restlet" : {
+        "section" : "Services"
+      }
     }
   },
   "securityDefinitions" : {
@@ -370,7 +419,10 @@
   },
   "definitions" : {
     "department" : {
-      "type" : "object"
+      "type" : "object",
+      "x-restlet" : {
+        "section" : "Organizations"
+      }
     },
     "organization" : {
       "type" : "object",
@@ -379,6 +431,9 @@
           "type" : "string",
           "description" : "Description of the organization unit."
         }
+      },
+      "x-restlet" : {
+        "section" : "Organizations"
       }
     },
     "Company" : {
@@ -418,10 +473,16 @@
         }
       },
       "description" : "A representation of a Company.",
-      "example" : "{\n  \"id\": \"0e8cedd0-ad98-11e6-bf2e-47644ada7c0f\",\n  \"name\": \"George Street Brewery\",\n  \"address\":{\n    \"street\": \"2 place de la Defense\",\n    \"zipcode\": \"92053\",\n    \"city\": \"Paris\"\n  },\n  \"tags\":[\n    \"brewery\",\n    \"beer\",\n    \"ale\"\n  ]\n}"
+      "example" : "{\n  \"id\": \"0e8cedd0-ad98-11e6-bf2e-47644ada7c0f\",\n  \"name\": \"George Street Brewery\",\n  \"address\":{\n    \"street\": \"2 place de la Defense\",\n    \"zipcode\": \"92053\",\n    \"city\": \"Paris\"\n  },\n  \"tags\":[\n    \"brewery\",\n    \"beer\",\n    \"ale\"\n  ]\n}",
+      "x-restlet" : {
+        "section" : "Companies"
+      }
     },
     "Organization" : {
-      "type" : "object"
+      "type" : "object",
+      "x-restlet" : {
+        "section" : "Companies"
+      }
     },
     "ContactGroup" : {
       "type" : "object",
@@ -454,7 +515,10 @@
           "description" : "The total number of contacts in the group irrespective of max members in specified in the request."
         }
       },
-      "description" : "A contact group.\n\n```\n{\n  \"resourceName\": string,\n  \"etag\": string,\n  \"metadata\": {\n    object(ContactGroupMetadata)\n  },\n  \"groupType\": enum(GroupType),\n  \"name\": string,\n  \"formattedName\": string,\n  \"memberResourceNames\": [\n    string\n  ],\n  \"memberCount\": number,\n}\n```"
+      "description" : "A contact group.\n\n```\n{\n  \"resourceName\": string,\n  \"etag\": string,\n  \"metadata\": {\n    object(ContactGroupMetadata)\n  },\n  \"groupType\": enum(GroupType),\n  \"name\": string,\n  \"formattedName\": string,\n  \"memberResourceNames\": [\n    string\n  ],\n  \"memberCount\": number,\n}\n```",
+      "x-restlet" : {
+        "section" : "Peoples"
+      }
     },
     "ContactGroupMetadata" : {
       "type" : "object",
@@ -468,14 +532,23 @@
           "description" : "True if the contact group resource has been deleted. Populated only for contactGroups.list requests that include a sync token."
         }
       },
-      "description" : "The read-only metadata about a contact group.\n\n```\n{\n  \"updateTime\": string,\n  \"deleted\": boolean,\n}\n```"
+      "description" : "The read-only metadata about a contact group.\n\n```\n{\n  \"updateTime\": string,\n  \"deleted\": boolean,\n}\n```",
+      "x-restlet" : {
+        "section" : "Peoples"
+      }
     },
     "GroupType" : {
       "type" : "object",
-      "description" : "A contact group type.\n\nEnums\nGROUP_TYPE_UNSPECIFIED\tUnspecified.\nUSER_CONTACT_GROUP\tUser defined contact group.\nSYSTEM_CONTACT_GROUP\tSystem defined contact group.\n"
+      "description" : "A contact group type.\n\nEnums\nGROUP_TYPE_UNSPECIFIED\tUnspecified.\nUSER_CONTACT_GROUP\tUser defined contact group.\nSYSTEM_CONTACT_GROUP\tSystem defined contact group.\n",
+      "x-restlet" : {
+        "section" : "Peoples"
+      }
     },
     "PersonMetadata" : {
-      "type" : "object"
+      "type" : "object",
+      "x-restlet" : {
+        "section" : "Peoples"
+      }
     },
     "People" : {
       "type" : "object",
@@ -492,10 +565,16 @@
           "type" : "string"
         }
       },
-      "example" : "{\n  \"resourceName\": string,\n  \"etag\": string,\n  \"metadata\": {\n    object(PersonMetadata)\n  },\n  \"locales\": [\n    {\n      object(Locale)\n    }\n  ],\n  \"names\": [\n    {\n      object(Name)\n    }\n  ],\n  \"nicknames\": [\n    {\n      object(Nickname)\n    }\n  ],\n  \"coverPhotos\": [\n    {\n      object(CoverPhoto)\n    }\n  ],\n  \"photos\": [\n    {\n      object(Photo)\n    }\n  ],\n  \"genders\": [\n    {\n      object(Gender)\n    }\n  ],\n  \"ageRange\": enum(AgeRange),\n  \"ageRanges\": [\n    {\n      object(AgeRangeType)\n    }\n  ],\n  \"birthdays\": [\n    {\n      object(Birthday)\n    }\n  ],\n  \"events\": [\n    {\n      object(Event)\n    }\n  ],\n  \"addresses\": [\n    {\n      object(Address)\n    }\n  ],\n  \"residences\": [\n    {\n      object(Residence)\n    }\n  ],\n  \"emailAddresses\": [\n    {\n      object(EmailAddress)\n    }\n  ],\n  \"phoneNumbers\": [\n    {\n      object(PhoneNumber)\n    }\n  ],\n  \"imClients\": [\n    {\n      object(ImClient)\n    }\n  ],\n  \"taglines\": [\n    {\n      object(Tagline)\n    }\n  ],\n  \"biographies\": [\n    {\n      object(Biography)\n    }\n  ],\n  \"urls\": [\n    {\n      object(Url)\n    }\n  ],\n  \"organizations\": [\n    {\n      object(Organization)\n    }\n  ],\n  \"occupations\": [\n    {\n      object(Occupation)\n    }\n  ],\n  \"interests\": [\n    {\n      object(Interest)\n    }\n  ],\n  \"skills\": [\n    {\n      object(Skill)\n    }\n  ],\n  \"braggingRights\": [\n    {\n      object(BraggingRights)\n    }\n  ],\n  \"relations\": [\n    {\n      object(Relation)\n    }\n  ],\n  \"relationshipInterests\": [\n    {\n      object(RelationshipInterest)\n    }\n  ],\n  \"relationshipStatuses\": [\n    {\n      object(RelationshipStatus)\n    }\n  ],\n  \"memberships\": [\n    {\n      object(Membership)\n    }\n  ],\n  \"userDefined\": [\n    {\n      object(UserDefined)\n    }\n  ],\n}"
+      "example" : "{\n  \"resourceName\": string,\n  \"etag\": string,\n  \"metadata\": {\n    object(PersonMetadata)\n  },\n  \"locales\": [\n    {\n      object(Locale)\n    }\n  ],\n  \"names\": [\n    {\n      object(Name)\n    }\n  ],\n  \"nicknames\": [\n    {\n      object(Nickname)\n    }\n  ],\n  \"coverPhotos\": [\n    {\n      object(CoverPhoto)\n    }\n  ],\n  \"photos\": [\n    {\n      object(Photo)\n    }\n  ],\n  \"genders\": [\n    {\n      object(Gender)\n    }\n  ],\n  \"ageRange\": enum(AgeRange),\n  \"ageRanges\": [\n    {\n      object(AgeRangeType)\n    }\n  ],\n  \"birthdays\": [\n    {\n      object(Birthday)\n    }\n  ],\n  \"events\": [\n    {\n      object(Event)\n    }\n  ],\n  \"addresses\": [\n    {\n      object(Address)\n    }\n  ],\n  \"residences\": [\n    {\n      object(Residence)\n    }\n  ],\n  \"emailAddresses\": [\n    {\n      object(EmailAddress)\n    }\n  ],\n  \"phoneNumbers\": [\n    {\n      object(PhoneNumber)\n    }\n  ],\n  \"imClients\": [\n    {\n      object(ImClient)\n    }\n  ],\n  \"taglines\": [\n    {\n      object(Tagline)\n    }\n  ],\n  \"biographies\": [\n    {\n      object(Biography)\n    }\n  ],\n  \"urls\": [\n    {\n      object(Url)\n    }\n  ],\n  \"organizations\": [\n    {\n      object(Organization)\n    }\n  ],\n  \"occupations\": [\n    {\n      object(Occupation)\n    }\n  ],\n  \"interests\": [\n    {\n      object(Interest)\n    }\n  ],\n  \"skills\": [\n    {\n      object(Skill)\n    }\n  ],\n  \"braggingRights\": [\n    {\n      object(BraggingRights)\n    }\n  ],\n  \"relations\": [\n    {\n      object(Relation)\n    }\n  ],\n  \"relationshipInterests\": [\n    {\n      object(RelationshipInterest)\n    }\n  ],\n  \"relationshipStatuses\": [\n    {\n      object(RelationshipStatus)\n    }\n  ],\n  \"memberships\": [\n    {\n      object(Membership)\n    }\n  ],\n  \"userDefined\": [\n    {\n      object(UserDefined)\n    }\n  ],\n}",
+      "x-restlet" : {
+        "section" : "Peoples"
+      }
     },
     "ProfileMetadata" : {
-      "type" : "object"
+      "type" : "object",
+      "x-restlet" : {
+        "section" : "Profiles"
+      }
     },
     "services" : {
       "type" : "object",
@@ -509,7 +588,10 @@
           "description" : "ID of the project that produces and owns this service."
         }
       },
-      "description" : "The full representation of a Service"
+      "description" : "The full representation of a Service",
+      "x-restlet" : {
+        "section" : "Services"
+      }
     },
     "operations" : {
       "type" : "object",
@@ -543,28 +625,52 @@
           }
         }
       },
-      "description" : "This resource represents a long-running operation that is the result of a network API call"
+      "description" : "This resource represents a long-running operation that is the result of a network API call",
+      "x-restlet" : {
+        "section" : "Services"
+      }
     },
     "Activity" : {
-      "type" : "object"
+      "type" : "object",
+      "x-restlet" : {
+        "section" : "Types"
+      }
     },
     "Address" : {
-      "type" : "object"
+      "type" : "object",
+      "x-restlet" : {
+        "section" : "Types"
+      }
     },
     "AddOn" : {
-      "type" : "object"
+      "type" : "object",
+      "x-restlet" : {
+        "section" : "Types"
+      }
     },
     "Announcement" : {
-      "type" : "object"
+      "type" : "object",
+      "x-restlet" : {
+        "section" : "Types"
+      }
     },
     "Attachment" : {
-      "type" : "object"
+      "type" : "object",
+      "x-restlet" : {
+        "section" : "Types"
+      }
     },
     "Authorization" : {
-      "type" : "object"
+      "type" : "object",
+      "x-restlet" : {
+        "section" : "Types"
+      }
     },
     "Batch" : {
-      "type" : "object"
+      "type" : "object",
+      "x-restlet" : {
+        "section" : "Types"
+      }
     },
     "Category" : {
       "type" : "object",
@@ -634,17 +740,29 @@
         }
       },
       "description" : "A Category is a way to organize content within a place. Categories have a name, tags, and a parent place. When creating or updating content, you can specify a list of categories for that content object. An example JSON representation looks like this:\n```\n {\n    \"name\" : \"Animals\",\n    \"tags\" : [ ],\n    \"place\" : \"https://example.com/api/core/v3/places/1116\",\n    \"id\" : \"1002\",\n    \"resources\" : {\n      \"self\" : {\n        \"ref\" : \"https://example.com/api/core/v3/places/1116/categories/1002\",\n        \"allowed\" : [ \"GET\", \"DELETE\", \"PUT\" ]\n      }\n    }\n }\n```\n",
-      "example" : "Description of the category."
+      "example" : "Description of the category.",
+      "x-restlet" : {
+        "section" : "Types"
+      }
     },
     "Comment" : {
-      "type" : "object"
+      "type" : "object",
+      "x-restlet" : {
+        "section" : "Types"
+      }
     },
     "CoverPhoto" : {
-      "type" : "object"
+      "type" : "object",
+      "x-restlet" : {
+        "section" : "Types"
+      }
     },
     "Deleted Object" : {
       "type" : "object",
-      "description" : "A Deleted Object is a marker left behind to represent an entity that has been removed from API. This object can represent content, a place, a service, a product or a person."
+      "description" : "A Deleted Object is a marker left behind to represent an entity that has been removed from API. This object can represent content, a place, a service, a product or a person.",
+      "x-restlet" : {
+        "section" : "Types"
+      }
     },
     "Error" : {
       "type" : "object",
@@ -665,52 +783,115 @@
         }
       },
       "description" : "This general error structure is used throughout this API.",
-      "example" : "{\n  \"code\": 400,\n  \"description\": \"Bad query parameter [$size]: Invalid integer value [abc]\",\n  \"reasonPhrase\": \"Bad Request\"\n}"
+      "example" : "{\n  \"code\": 400,\n  \"description\": \"Bad query parameter [$size]: Invalid integer value [abc]\",\n  \"reasonPhrase\": \"Bad Request\"\n}",
+      "x-restlet" : {
+        "section" : "Types"
+      }
     },
     "FieldMetadata" : {
-      "type" : "object"
+      "type" : "object",
+      "x-restlet" : {
+        "section" : "Types"
+      }
     },
     "Gender" : {
-      "type" : "object"
+      "type" : "object",
+      "x-restlet" : {
+        "section" : "Types"
+      }
     },
     "Image" : {
-      "type" : "object"
+      "type" : "object",
+      "x-restlet" : {
+        "section" : "Types"
+      }
     },
     "Locale" : {
-      "type" : "object"
+      "type" : "object",
+      "x-restlet" : {
+        "section" : "Types"
+      }
     },
     "Metadata" : {
-      "type" : "object"
+      "type" : "object",
+      "x-restlet" : {
+        "section" : "Types"
+      }
     },
     "Name" : {
-      "type" : "object"
+      "type" : "object",
+      "x-restlet" : {
+        "section" : "Types"
+      }
     },
     "News" : {
-      "type" : "object"
+      "type" : "object",
+      "x-restlet" : {
+        "section" : "Types"
+      }
     },
     "Nickname" : {
-      "type" : "object"
+      "type" : "object",
+      "x-restlet" : {
+        "section" : "Types"
+      }
     },
     "NicknameType" : {
-      "type" : "object"
+      "type" : "object",
+      "x-restlet" : {
+        "section" : "Types"
+      }
     },
     "ObjectType" : {
-      "type" : "object"
+      "type" : "object",
+      "x-restlet" : {
+        "section" : "Types"
+      }
     },
     "Page" : {
-      "type" : "object"
+      "type" : "object",
+      "x-restlet" : {
+        "section" : "Types"
+      }
     },
     "Photo" : {
-      "type" : "object"
+      "type" : "object",
+      "x-restlet" : {
+        "section" : "Types"
+      }
     },
     "UserType" : {
-      "type" : "object"
+      "type" : "object",
+      "x-restlet" : {
+        "section" : "Types"
+      }
     },
     "ConfigView" : {
-      "type" : "object"
+      "type" : "object",
+      "x-restlet" : {
+        "section" : "Types"
+      }
     },
     "Status" : {
-      "type" : "object"
+      "type" : "object",
+      "x-restlet" : {
+        "section" : "Types"
+      }
+    }
+  },
+  "x-restlet" : {
+    "sections" : {
+      "Organizations" : {
+        "description" : "Account's organizational tree is composed of organizational units which let you manage your users in a logical and hierarchical structure."
+      },
+      "Companies" : {
+        "description" : "For a given product, create a company. "
+      },
+      "Peoples" : { },
+      "Profiles" : { },
+      "Services" : { },
+      "Types" : { },
+      "Products" : { }
     }
   }
 }
