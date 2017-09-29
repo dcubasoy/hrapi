@@ -1,0 +1,716 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "HR-API is the most complete tool for you HR Department, many organizations have custom applications and requirements that are unique to their business. Our web services API makes it easy to exchange data between HR-API and other systems in real time, so you can extend and integrate with the core HR-API platform.\n\n",
+    "version" : "1.2.0",
+    "title" : "HR API",
+    "termsOfService" : "",
+    "contact" : { }
+  },
+  "host" : "hrapi.restlet.net",
+  "basePath" : "/v1",
+  "schemes" : [ "https" ],
+  "consumes" : [ "application/json" ],
+  "produces" : [ "application/json" ],
+  "paths" : {
+    "/companies/" : {
+      "get" : {
+        "tags" : [ "Companies" ],
+        "summary" : "Load the list of Companies",
+        "description" : "Loads a list of Company",
+        "parameters" : [ {
+          "name" : "$size",
+          "in" : "query",
+          "required" : false,
+          "type" : "integer",
+          "description" : "Size of the page to retrieve.",
+          "x-example" : 10
+        }, {
+          "name" : "$page",
+          "in" : "query",
+          "required" : false,
+          "type" : "number",
+          "description" : "Number of the page to retrieve.",
+          "x-example" : 1.0
+        }, {
+          "name" : "$sort",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "Order in which to retrieve the results. Multiple sort criteria can be passed. Example: sort=age ASC,height DESC",
+          "x-example" : "name ASC"
+        }, {
+          "name" : "name",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "Allows to filter the collections of result by the value of field name",
+          "x-example" : "George Street Brewery"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Company"
+              }
+            },
+            "examples" : {
+              "application/json" : "[{\n  \"id\": \"0e8cedd0-ad98-11e6-bf2e-47644ada7c0f\",\n  \"name\": \"George Street Brewery\",\n  \"address\":{\n    \"street\": \"2 place de la Defense\",\n    \"zipcode\": \"92053\",\n    \"city\": \"Paris\"\n  },\n  \"tags\":[\n    \"brewery\",\n    \"beer\",\n    \"ale\"\n  ]\n}]"
+            },
+            "headers" : {
+              "X-Page-Count" : {
+                "type" : "integer",
+                "x-example" : 1
+              },
+              "X-Page-Number" : {
+                "type" : "integer",
+                "x-example" : 1
+              },
+              "X-Page-Size" : {
+                "type" : "integer",
+                "x-example" : 25
+              },
+              "X-Total-Count" : {
+                "type" : "integer",
+                "x-example" : 2
+              }
+            }
+          },
+          "400" : {
+            "description" : "Status 400",
+            "schema" : {
+              "$ref" : "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Companies" ],
+        "summary" : "Create a new Company",
+        "description" : "Adds a Company",
+        "consumes" : [ ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Company"
+          },
+          "x-examples" : {
+            "application/json" : "{\n  \"name\": \"George Street Brewery\",\n  \"address\":{\n    \"street\": \"2 place de la Defense\",\n    \"zipcode\": \"92053\",\n    \"city\": \"Paris\"\n  },\n  \"tags\":[\n    \"brewery\",\n    \"beer\",\n    \"ale\"\n  ]\n}"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200",
+            "schema" : {
+              "$ref" : "#/definitions/Company"
+            },
+            "examples" : {
+              "application/json" : "{\n  \"id\": \"0e8cedd0-ad98-11e6-bf2e-47644ada7c0f\",\n  \"name\": \"George Street Brewery\",\n  \"address\":{\n    \"street\": \"2 place de la Defense\",\n    \"zipcode\": \"92053\",\n    \"city\": \"Paris\"\n  },\n  \"tags\":[\n    \"brewery\",\n    \"beer\",\n    \"ale\"\n  ]\n}"
+            }
+          }
+        },
+        "security" : [ {
+          "HTTP_BASIC" : [ ]
+        } ]
+      }
+    },
+    "/companies/{companyid}" : {
+      "get" : {
+        "tags" : [ "Companies" ],
+        "summary" : "Load an individual Company",
+        "description" : "Loads a Company",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200",
+            "schema" : {
+              "$ref" : "#/definitions/Company"
+            },
+            "examples" : {
+              "application/json" : "{\n  \"id\": \"0e8cedd0-ad98-11e6-bf2e-47644ada7c0f\",\n  \"name\": \"George Street Brewery\",\n  \"address\":{\n    \"street\": \"2 place de la Defense\",\n    \"zipcode\": \"92053\",\n    \"city\": \"Paris\"\n  },\n  \"tags\":[\n    \"brewery\",\n    \"beer\",\n    \"ale\"\n  ]\n}"
+            }
+          },
+          "400" : {
+            "description" : "Status 400",
+            "schema" : {
+              "$ref" : "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "Companies" ],
+        "summary" : "Update a Company",
+        "description" : "Stores a Company",
+        "consumes" : [ ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Company"
+          },
+          "x-examples" : {
+            "application/json" : "{\n  \"name\": \"George Street Brewery\",\n  \"address\":{\n    \"street\": \"2 place de la Defense\",\n    \"zipcode\": \"92053\",\n    \"city\": \"Paris\"\n  },\n  \"tags\":[\n    \"brewery\",\n    \"beer\",\n    \"ale\"\n  ]\n}"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200",
+            "schema" : {
+              "$ref" : "#/definitions/Company"
+            },
+            "examples" : {
+              "application/json" : "{\n  \"id\": \"0e8cedd0-ad98-11e6-bf2e-47644ada7c0f\",\n  \"name\": \"George Street Brewery\",\n  \"address\":{\n    \"street\": \"2 place de la Defense\",\n    \"zipcode\": \"92053\",\n    \"city\": \"Paris\"\n  },\n  \"tags\":[\n    \"brewery\",\n    \"beer\",\n    \"ale\"\n  ]\n}"
+            }
+          }
+        },
+        "security" : [ {
+          "HTTP_BASIC" : [ ]
+        } ]
+      },
+      "delete" : {
+        "tags" : [ "Companies" ],
+        "summary" : "Delete a Company",
+        "description" : "Deletes a Company",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        },
+        "security" : [ {
+          "HTTP_BASIC" : [ ]
+        } ]
+      },
+      "parameters" : [ {
+        "name" : "companyid",
+        "in" : "path",
+        "required" : true,
+        "type" : "string",
+        "description" : "Identifier of the Company",
+        "x-example" : "0e8c9fb0-ad98-11e6-bf2e-47644ada7c0f"
+      } ]
+    },
+    "/peoples.contactGroups" : {
+      "get" : {
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      }
+    },
+    "/peoples.persons" : { },
+    "/peoples.users" : { },
+    "/profiles.skills" : { },
+    "/profiles.competencies" : { },
+    "/profiles.occupations" : { },
+    "/profiles.studies" : { },
+    "/profiles.languages" : { },
+    "/services" : {
+      "get" : {
+        "summary" : "services.disable",
+        "description" : "Gets a managed service.",
+        "parameters" : [ {
+          "name" : "serviceName",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "The name of the service"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "post" : {
+        "summary" : "services.create",
+        "description" : "Creates a new managed service.",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "delete" : {
+        "summary" : "services.delete",
+        "description" : "Deletes a managed service. This method will change the service to the Soft-Delete state for 30 days. Within this period, service producers may call services.undelete to restore the service. After 30 days, the service will be permanently deleted.",
+        "parameters" : [ {
+          "name" : "serviceName",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "The name of the service."
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        },
+        "security" : [ ]
+      }
+    },
+    "/services/{serviceName}:disable" : {
+      "post" : {
+        "summary" : "services.disable",
+        "description" : "Disables a service for a project.",
+        "consumes" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "serviceName",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "name of the service to disable."
+        }, {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "description" : "JSON representation\n```\n{\n  \"consumerId\": string,\n}\n```"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200",
+            "schema" : {
+              "$ref" : "#/definitions/operations"
+            }
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "serviceName",
+        "in" : "path",
+        "required" : true,
+        "type" : "string"
+      } ]
+    },
+    "/services/{serviceName}:enable" : {
+      "post" : {
+        "summary" : "services.enable",
+        "description" : "Enables a service for a project.",
+        "consumes" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "serviceName",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "name of the service to disable."
+        }, {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "description" : "JSON representation\n```\n{\n  \"consumerId\": string,\n}\n```"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "serviceName",
+        "in" : "path",
+        "required" : true,
+        "type" : "string"
+      } ]
+    },
+    "/services/{serviceName}/config" : {
+      "get" : {
+        "summary" : "services.getConfig",
+        "description" : "Gets a managed service.",
+        "parameters" : [ {
+          "name" : "configId",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "The id of the service configuration resource."
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "serviceName",
+        "in" : "path",
+        "required" : true,
+        "type" : "string"
+      } ]
+    }
+  },
+  "securityDefinitions" : {
+    "HTTP_BASIC" : {
+      "description" : "All GET methods are public, meaning that *you can read all the data*. Write operations require authentication and therefore are forbidden to the general public.",
+      "type" : "basic"
+    },
+    "Basic authentication" : {
+      "type" : "basic"
+    },
+    "OAuth2" : {
+      "type" : "oauth2",
+      "authorizationUrl" : "",
+      "tokenUrl" : "",
+      "flow" : "accessCode",
+      "scopes" : { }
+    }
+  },
+  "definitions" : {
+    "department" : {
+      "type" : "object"
+    },
+    "organization" : {
+      "type" : "object",
+      "properties" : {
+        "description" : {
+          "type" : "string",
+          "description" : "Description of the organization unit."
+        }
+      }
+    },
+    "Company" : {
+      "type" : "object",
+      "required" : [ "address", "id", "name" ],
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "Auto-generated primary key field"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "tags" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string",
+            "pattern" : "[a-zA-Z]+"
+          },
+          "example" : "[\"brewery\", \"beer\", \"ale\"]"
+        },
+        "address" : {
+          "required" : [ "city", "street", "zipcode" ],
+          "type" : "object",
+          "properties" : {
+            "street" : {
+              "type" : "string"
+            },
+            "city" : {
+              "type" : "string"
+            },
+            "zipcode" : {
+              "type" : "string",
+              "pattern" : "[0-9]*"
+            }
+          }
+        }
+      },
+      "description" : "A representation of a Company.",
+      "example" : "{\n  \"id\": \"0e8cedd0-ad98-11e6-bf2e-47644ada7c0f\",\n  \"name\": \"George Street Brewery\",\n  \"address\":{\n    \"street\": \"2 place de la Defense\",\n    \"zipcode\": \"92053\",\n    \"city\": \"Paris\"\n  },\n  \"tags\":[\n    \"brewery\",\n    \"beer\",\n    \"ale\"\n  ]\n}"
+    },
+    "Organization" : {
+      "type" : "object"
+    },
+    "ContactGroup" : {
+      "type" : "object",
+      "properties" : {
+        "resourceName" : {
+          "type" : "string",
+          "description" : "The resource name for the contact group, assigned by the server. An ASCII string, in the form of contactGroups/contactGroupId."
+        },
+        "etag" : {
+          "type" : "string",
+          "description" : "The HTTP entity tag of the resource. Used for web cache validation."
+        },
+        "metadata" : {
+          "$ref" : "#/definitions/GroupType"
+        },
+        "name" : {
+          "type" : "string",
+          "description" : "The contact group name set by the group owner or a system provided name for system groups."
+        },
+        "formattedName" : {
+          "type" : "string",
+          "description" : "The read-only name translated and formatted in the viewer's account locale or the Accept-Language HTTP header locale for system groups names. Group names set by the owner are the same as name."
+        },
+        "memberResourceNames" : {
+          "type" : "string",
+          "description" : "The list of contact person resource names that are members of the contact group. The field is not populated for LIST requests and can only be updated through the members.modify."
+        },
+        "memberCount" : {
+          "type" : "number",
+          "description" : "The total number of contacts in the group irrespective of max members in specified in the request."
+        }
+      },
+      "description" : "A contact group.\n\n```\n{\n  \"resourceName\": string,\n  \"etag\": string,\n  \"metadata\": {\n    object(ContactGroupMetadata)\n  },\n  \"groupType\": enum(GroupType),\n  \"name\": string,\n  \"formattedName\": string,\n  \"memberResourceNames\": [\n    string\n  ],\n  \"memberCount\": number,\n}\n```"
+    },
+    "ContactGroupMetadata" : {
+      "type" : "object",
+      "properties" : {
+        "updateTime" : {
+          "type" : "string",
+          "format" : "date"
+        },
+        "deleted" : {
+          "type" : "boolean",
+          "description" : "True if the contact group resource has been deleted. Populated only for contactGroups.list requests that include a sync token."
+        }
+      },
+      "description" : "The read-only metadata about a contact group.\n\n```\n{\n  \"updateTime\": string,\n  \"deleted\": boolean,\n}\n```"
+    },
+    "GroupType" : {
+      "type" : "object",
+      "description" : "A contact group type.\n\nEnums\nGROUP_TYPE_UNSPECIFIED\tUnspecified.\nUSER_CONTACT_GROUP\tUser defined contact group.\nSYSTEM_CONTACT_GROUP\tSystem defined contact group.\n"
+    },
+    "PersonMetadata" : {
+      "type" : "object"
+    },
+    "People" : {
+      "type" : "object",
+      "properties" : {
+        "resourceName" : {
+          "type" : "string",
+          "description" : "The resource name for the person, assigned by the server. An ASCII string with a max length of 27 characters, in the form of people/person_id."
+        },
+        "etag" : {
+          "type" : "string",
+          "description" : "string\n\nThe HTTP entity tag of the resource. Used for web cache validation."
+        },
+        "metadata" : {
+          "type" : "string"
+        }
+      },
+      "example" : "{\n  \"resourceName\": string,\n  \"etag\": string,\n  \"metadata\": {\n    object(PersonMetadata)\n  },\n  \"locales\": [\n    {\n      object(Locale)\n    }\n  ],\n  \"names\": [\n    {\n      object(Name)\n    }\n  ],\n  \"nicknames\": [\n    {\n      object(Nickname)\n    }\n  ],\n  \"coverPhotos\": [\n    {\n      object(CoverPhoto)\n    }\n  ],\n  \"photos\": [\n    {\n      object(Photo)\n    }\n  ],\n  \"genders\": [\n    {\n      object(Gender)\n    }\n  ],\n  \"ageRange\": enum(AgeRange),\n  \"ageRanges\": [\n    {\n      object(AgeRangeType)\n    }\n  ],\n  \"birthdays\": [\n    {\n      object(Birthday)\n    }\n  ],\n  \"events\": [\n    {\n      object(Event)\n    }\n  ],\n  \"addresses\": [\n    {\n      object(Address)\n    }\n  ],\n  \"residences\": [\n    {\n      object(Residence)\n    }\n  ],\n  \"emailAddresses\": [\n    {\n      object(EmailAddress)\n    }\n  ],\n  \"phoneNumbers\": [\n    {\n      object(PhoneNumber)\n    }\n  ],\n  \"imClients\": [\n    {\n      object(ImClient)\n    }\n  ],\n  \"taglines\": [\n    {\n      object(Tagline)\n    }\n  ],\n  \"biographies\": [\n    {\n      object(Biography)\n    }\n  ],\n  \"urls\": [\n    {\n      object(Url)\n    }\n  ],\n  \"organizations\": [\n    {\n      object(Organization)\n    }\n  ],\n  \"occupations\": [\n    {\n      object(Occupation)\n    }\n  ],\n  \"interests\": [\n    {\n      object(Interest)\n    }\n  ],\n  \"skills\": [\n    {\n      object(Skill)\n    }\n  ],\n  \"braggingRights\": [\n    {\n      object(BraggingRights)\n    }\n  ],\n  \"relations\": [\n    {\n      object(Relation)\n    }\n  ],\n  \"relationshipInterests\": [\n    {\n      object(RelationshipInterest)\n    }\n  ],\n  \"relationshipStatuses\": [\n    {\n      object(RelationshipStatus)\n    }\n  ],\n  \"memberships\": [\n    {\n      object(Membership)\n    }\n  ],\n  \"userDefined\": [\n    {\n      object(UserDefined)\n    }\n  ],\n}"
+    },
+    "ProfileMetadata" : {
+      "type" : "object"
+    },
+    "services" : {
+      "type" : "object",
+      "properties" : {
+        "serviceName" : {
+          "type" : "string",
+          "description" : "The name of the service. See the overview for naming requirements."
+        },
+        "producerProjectId" : {
+          "type" : "string",
+          "description" : "ID of the project that produces and owns this service."
+        }
+      },
+      "description" : "The full representation of a Service"
+    },
+    "operations" : {
+      "type" : "object",
+      "properties" : {
+        "name" : {
+          "type" : "string",
+          "description" : "The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the name should have the format of operations/some/unique/name."
+        },
+        "metadata" : {
+          "type" : "object",
+          "description" : "Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any.\n\nAn object containing fields of an arbitrary type. An additional field \"@type\" contains a URI identifying the type. Example: { \"id\": 1234, \"@type\": \"types.example.com/standard/id\" }.",
+          "properties" : {
+            "@type" : {
+              "type" : "string"
+            }
+          }
+        },
+        "done" : {
+          "type" : "boolean",
+          "description" : "If the value is false, it means the operation is still in progress. If true, the operation is completed, and either error or response is available."
+        },
+        "error" : {
+          "$ref" : "#/definitions/Status"
+        },
+        "response" : {
+          "type" : "object",
+          "properties" : {
+            "@type" : {
+              "type" : "string"
+            }
+          }
+        }
+      },
+      "description" : "This resource represents a long-running operation that is the result of a network API call"
+    },
+    "Activity" : {
+      "type" : "object"
+    },
+    "Address" : {
+      "type" : "object"
+    },
+    "AddOn" : {
+      "type" : "object"
+    },
+    "Announcement" : {
+      "type" : "object"
+    },
+    "Attachment" : {
+      "type" : "object"
+    },
+    "Authorization" : {
+      "type" : "object"
+    },
+    "Batch" : {
+      "type" : "object"
+    },
+    "Category" : {
+      "type" : "object",
+      "required" : [ "name", "type" ],
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "Identifier"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "likeCount" : {
+          "type" : "integer",
+          "description" : "Number of people who have liked this object."
+        },
+        "name" : {
+          "type" : "string",
+          "description" : "Name of the category."
+        },
+        "place" : {
+          "type" : "string",
+          "description" : "URI of the place where this category belongs."
+        },
+        "tags" : {
+          "type" : "array",
+          "description" : "Tags associated with this object.",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The object type for this object (\"category\"). This field is required when creating new content."
+        },
+        "updated" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Date and time this object was most recently updated."
+        },
+        "followed" : {
+          "type" : "boolean",
+          "description" : "Whether the current user is following this object.\n\nAvailability:\n\nWill be present only for object types that support being followed."
+        },
+        "published" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Date and time this object was originally created."
+        },
+        "resources" : {
+          "type" : "object",
+          "description" : "Resource links (and related permissions for the requesting person) relevant to this object.",
+          "properties" : {
+            "self - GET" : {
+              "type" : "string",
+              "description" : "Return an updated version of this category.\n\nRetrieves:\n\nCategory representing the updated category"
+            },
+            "self - PUT" : {
+              "type" : "string",
+              "description" : "Update the information about this category.\n\nRetrieves:\n\nCategory representing the updated category"
+            },
+            "self - DELETE" : {
+              "type" : "string",
+              "description" : "Delete the existing category for the specified place. Only admins of the place can manage place categories."
+            }
+          }
+        }
+      },
+      "description" : "A Category is a way to organize content within a place. Categories have a name, tags, and a parent place. When creating or updating content, you can specify a list of categories for that content object. An example JSON representation looks like this:\n```\n {\n    \"name\" : \"Animals\",\n    \"tags\" : [ ],\n    \"place\" : \"https://example.com/api/core/v3/places/1116\",\n    \"id\" : \"1002\",\n    \"resources\" : {\n      \"self\" : {\n        \"ref\" : \"https://example.com/api/core/v3/places/1116/categories/1002\",\n        \"allowed\" : [ \"GET\", \"DELETE\", \"PUT\" ]\n      }\n    }\n }\n```\n",
+      "example" : "Description of the category."
+    },
+    "Comment" : {
+      "type" : "object"
+    },
+    "CoverPhoto" : {
+      "type" : "object"
+    },
+    "Deleted Object" : {
+      "type" : "object",
+      "description" : "A Deleted Object is a marker left behind to represent an entity that has been removed from API. This object can represent content, a place, a service, a product or a person."
+    },
+    "Error" : {
+      "type" : "object",
+      "required" : [ "code" ],
+      "properties" : {
+        "code" : {
+          "type" : "integer",
+          "minimum" : 400,
+          "maximum" : 599
+        },
+        "description" : {
+          "type" : "string",
+          "example" : "Bad query parameter [$size]: Invalid integer value [abc]"
+        },
+        "reasonPhrase" : {
+          "type" : "string",
+          "example" : "Bad Request"
+        }
+      },
+      "description" : "This general error structure is used throughout this API.",
+      "example" : "{\n  \"code\": 400,\n  \"description\": \"Bad query parameter [$size]: Invalid integer value [abc]\",\n  \"reasonPhrase\": \"Bad Request\"\n}"
+    },
+    "FieldMetadata" : {
+      "type" : "object"
+    },
+    "Gender" : {
+      "type" : "object"
+    },
+    "Image" : {
+      "type" : "object"
+    },
+    "Locale" : {
+      "type" : "object"
+    },
+    "Metadata" : {
+      "type" : "object"
+    },
+    "Name" : {
+      "type" : "object"
+    },
+    "News" : {
+      "type" : "object"
+    },
+    "Nickname" : {
+      "type" : "object"
+    },
+    "NicknameType" : {
+      "type" : "object"
+    },
+    "ObjectType" : {
+      "type" : "object"
+    },
+    "Page" : {
+      "type" : "object"
+    },
+    "Photo" : {
+      "type" : "object"
+    },
+    "UserType" : {
+      "type" : "object"
+    },
+    "ConfigView" : {
+      "type" : "object"
+    },
+    "Status" : {
+      "type" : "object"
+    }
+  }
+}
