@@ -1,897 +1,2808 @@
 {
   "swagger" : "2.0",
   "info" : {
-    "description" : "HR-API is the most complete tool for you HR Department, many organizations have custom applications and requirements that are unique to their business. Our web services API makes it easy to exchange data between HR-API and other systems in real time, so you can extend and integrate with the core HR-API platform.\n\n",
-    "version" : "1.2.0",
+    "description" : "HR-API is the most complete tool for you HR Department, many organizations have custom applications and requirements that are unique to their business.\n\nOur web services API makes it easy to exchange data between HR-API and other systems in real time, so you can extend and integrate with the core HR-API platform.",
+    "version" : "v1",
     "title" : "HR API",
-    "termsOfService" : "",
-    "contact" : { }
+    "contact" : {
+      "name" : "TalentTools",
+      "url" : "",
+      "email" : "raul.perez@talenttools.es"
+    }
   },
-  "host" : "hrapi.restlet.net",
-  "basePath" : "/v1",
-  "schemes" : [ "https" ],
-  "consumes" : [ "application/json" ],
-  "produces" : [ "application/json" ],
   "paths" : {
-    "/companies/" : {
+    "/v1/contactGroups" : {
       "get" : {
-        "tags" : [ "Companies" ],
-        "summary" : "Load the list of Companies",
-        "description" : "Loads a list of Company",
+        "tags" : [ "contactGroups" ],
+        "description" : "List all contact groups owned by the authenticated user. Members of the\ncontact groups are not populated.",
+        "operationId" : "people.contactGroups.list",
         "parameters" : [ {
-          "name" : "$size",
+          "name" : "pageSize",
           "in" : "query",
           "required" : false,
           "type" : "integer",
-          "description" : "Size of the page to retrieve.",
-          "x-example" : 10
+          "description" : "The maximum number of resources to return."
         }, {
-          "name" : "$page",
-          "in" : "query",
-          "required" : false,
-          "type" : "number",
-          "description" : "Number of the page to retrieve.",
-          "x-example" : 1.0
-        }, {
-          "name" : "$sort",
+          "name" : "pageToken",
           "in" : "query",
           "required" : false,
           "type" : "string",
-          "description" : "Order in which to retrieve the results. Multiple sort criteria can be passed. Example: sort=age ASC,height DESC",
-          "x-example" : "name ASC"
+          "description" : "The next_page_token value returned from a previous call to\n[ListContactGroups](/people/api/rest/v1/contactgroups/list).\nRequests the next page of resources."
         }, {
-          "name" : "name",
+          "name" : "syncToken",
           "in" : "query",
           "required" : false,
           "type" : "string",
-          "description" : "Allows to filter the collections of result by the value of field name",
-          "x-example" : "George Street Brewery"
+          "description" : "A sync token, returned by a previous call to `contactgroups.list`.\nOnly resources changed since the sync token was created will be returned."
+        }, {
+          "name" : "$.xgafv",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "V1 error format.",
+          "enum" : [ "1", "2" ]
+        }, {
+          "name" : "access_token",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "OAuth access token."
+        }, {
+          "name" : "alt",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "Data format for response.",
+          "default" : "json",
+          "enum" : [ "json", "media", "proto" ]
+        }, {
+          "name" : "bearer_token",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "OAuth bearer token."
+        }, {
+          "name" : "callback",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "JSONP"
+        }, {
+          "name" : "fields",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "Selector specifying which fields to include in a partial response."
+        }, {
+          "name" : "key",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "API key. Your API key identifies your project and provides you with API access, quota, and reports. Required unless you provide an OAuth 2.0 token."
+        }, {
+          "name" : "oauth_token",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "OAuth 2.0 token for the current user."
+        }, {
+          "name" : "pp",
+          "in" : "query",
+          "required" : false,
+          "type" : "boolean",
+          "description" : "Pretty-print response.",
+          "default" : true
+        }, {
+          "name" : "prettyPrint",
+          "in" : "query",
+          "required" : false,
+          "type" : "boolean",
+          "description" : "Returns response with indentations and line breaks.",
+          "default" : true
+        }, {
+          "name" : "quotaUser",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "Available to use for quota purposes for server-side applications. Can be any arbitrary string assigned to a user, but should not exceed 40 characters."
+        }, {
+          "name" : "uploadType",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "Legacy upload protocol for media (e.g. \"media\", \"multipart\")."
+        }, {
+          "name" : "upload_protocol",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "Upload protocol for media (e.g. \"raw\", \"multipart\")."
         } ],
         "responses" : {
           "200" : {
-            "description" : "Status 200",
+            "description" : "Successful response",
             "schema" : {
-              "type" : "array",
-              "items" : {
-                "$ref" : "#/definitions/Company"
-              }
-            },
-            "examples" : {
-              "application/json" : "[{\n  \"id\": \"0e8cedd0-ad98-11e6-bf2e-47644ada7c0f\",\n  \"name\": \"George Street Brewery\",\n  \"address\":{\n    \"street\": \"2 place de la Defense\",\n    \"zipcode\": \"92053\",\n    \"city\": \"Paris\"\n  },\n  \"tags\":[\n    \"brewery\",\n    \"beer\",\n    \"ale\"\n  ]\n}]"
-            },
-            "headers" : {
-              "X-Page-Count" : {
-                "type" : "integer",
-                "x-example" : 1
-              },
-              "X-Page-Number" : {
-                "type" : "integer",
-                "x-example" : 1
-              },
-              "X-Page-Size" : {
-                "type" : "integer",
-                "x-example" : 25
-              },
-              "X-Total-Count" : {
-                "type" : "integer",
-                "x-example" : 2
-              }
-            }
-          },
-          "400" : {
-            "description" : "Status 400",
-            "schema" : {
-              "$ref" : "#/definitions/Error"
+              "$ref" : "#/definitions/ListContactGroupsResponse"
             }
           }
         }
       },
       "post" : {
-        "tags" : [ "Companies" ],
-        "summary" : "Create a new Company",
-        "description" : "Adds a Company",
+        "tags" : [ "contactGroups" ],
+        "description" : "Create a new contact group owned by the authenticated user.",
+        "operationId" : "people.contactGroups.create",
         "consumes" : [ ],
         "parameters" : [ {
+          "name" : "$.xgafv",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "V1 error format.",
+          "enum" : [ "1", "2" ]
+        }, {
+          "name" : "access_token",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "OAuth access token."
+        }, {
+          "name" : "alt",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "Data format for response.",
+          "default" : "json",
+          "enum" : [ "json", "media", "proto" ]
+        }, {
+          "name" : "bearer_token",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "OAuth bearer token."
+        }, {
+          "name" : "callback",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "JSONP"
+        }, {
+          "name" : "fields",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "Selector specifying which fields to include in a partial response."
+        }, {
+          "name" : "key",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "API key. Your API key identifies your project and provides you with API access, quota, and reports. Required unless you provide an OAuth 2.0 token."
+        }, {
+          "name" : "oauth_token",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "OAuth 2.0 token for the current user."
+        }, {
+          "name" : "pp",
+          "in" : "query",
+          "required" : false,
+          "type" : "boolean",
+          "description" : "Pretty-print response.",
+          "default" : true
+        }, {
+          "name" : "prettyPrint",
+          "in" : "query",
+          "required" : false,
+          "type" : "boolean",
+          "description" : "Returns response with indentations and line breaks.",
+          "default" : true
+        }, {
+          "name" : "quotaUser",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "Available to use for quota purposes for server-side applications. Can be any arbitrary string assigned to a user, but should not exceed 40 characters."
+        }, {
+          "name" : "uploadType",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "Legacy upload protocol for media (e.g. \"media\", \"multipart\")."
+        }, {
+          "name" : "upload_protocol",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "Upload protocol for media (e.g. \"raw\", \"multipart\")."
+        }, {
           "name" : "body",
           "in" : "body",
           "required" : true,
           "schema" : {
-            "$ref" : "#/definitions/Company"
-          },
-          "x-examples" : {
-            "application/json" : "{\n  \"name\": \"George Street Brewery\",\n  \"address\":{\n    \"street\": \"2 place de la Defense\",\n    \"zipcode\": \"92053\",\n    \"city\": \"Paris\"\n  },\n  \"tags\":[\n    \"brewery\",\n    \"beer\",\n    \"ale\"\n  ]\n}"
+            "$ref" : "#/definitions/CreateContactGroupRequest"
           }
         } ],
         "responses" : {
           "200" : {
-            "description" : "Status 200",
+            "description" : "Successful response",
             "schema" : {
-              "$ref" : "#/definitions/Company"
-            },
-            "examples" : {
-              "application/json" : "{\n  \"id\": \"0e8cedd0-ad98-11e6-bf2e-47644ada7c0f\",\n  \"name\": \"George Street Brewery\",\n  \"address\":{\n    \"street\": \"2 place de la Defense\",\n    \"zipcode\": \"92053\",\n    \"city\": \"Paris\"\n  },\n  \"tags\":[\n    \"brewery\",\n    \"beer\",\n    \"ale\"\n  ]\n}"
+              "$ref" : "#/definitions/ContactGroup"
             }
           }
-        },
-        "security" : [ {
-          "HTTP_BASIC" : [ ]
-        } ]
+        }
       },
       "x-restlet" : {
-        "section" : "Companies"
+        "section" : "CONTACTS"
       }
     },
-    "/companies/{companyid}" : {
+    "/v1/contactGroups{batchGet}" : {
       "get" : {
-        "tags" : [ "Companies" ],
-        "summary" : "Load an individual Company",
-        "description" : "Loads a Company",
-        "parameters" : [ ],
+        "tags" : [ "contactGroups" ],
+        "description" : "Get a list of contact groups owned by the authenticated user by specifying\na list of contact group resource names.",
+        "operationId" : "people.contactGroups.batchGet",
+        "parameters" : [ {
+          "name" : "maxMembers",
+          "in" : "query",
+          "required" : false,
+          "type" : "integer",
+          "description" : "Specifies the maximum number of members to return for each group."
+        }, {
+          "name" : "resourceNames",
+          "in" : "query",
+          "required" : false,
+          "type" : "array",
+          "description" : "The resource names of the contact groups to get.",
+          "items" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "$.xgafv",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "V1 error format.",
+          "enum" : [ "1", "2" ]
+        }, {
+          "name" : "access_token",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "OAuth access token."
+        }, {
+          "name" : "alt",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "Data format for response.",
+          "default" : "json",
+          "enum" : [ "json", "media", "proto" ]
+        }, {
+          "name" : "bearer_token",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "OAuth bearer token."
+        }, {
+          "name" : "callback",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "JSONP"
+        }, {
+          "name" : "fields",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "Selector specifying which fields to include in a partial response."
+        }, {
+          "name" : "key",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "API key. Your API key identifies your project and provides you with API access, quota, and reports. Required unless you provide an OAuth 2.0 token."
+        }, {
+          "name" : "oauth_token",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "OAuth 2.0 token for the current user."
+        }, {
+          "name" : "pp",
+          "in" : "query",
+          "required" : false,
+          "type" : "boolean",
+          "description" : "Pretty-print response.",
+          "default" : true
+        }, {
+          "name" : "prettyPrint",
+          "in" : "query",
+          "required" : false,
+          "type" : "boolean",
+          "description" : "Returns response with indentations and line breaks.",
+          "default" : true
+        }, {
+          "name" : "quotaUser",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "Available to use for quota purposes for server-side applications. Can be any arbitrary string assigned to a user, but should not exceed 40 characters."
+        }, {
+          "name" : "uploadType",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "Legacy upload protocol for media (e.g. \"media\", \"multipart\")."
+        }, {
+          "name" : "upload_protocol",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "Upload protocol for media (e.g. \"raw\", \"multipart\")."
+        } ],
         "responses" : {
           "200" : {
-            "description" : "Status 200",
+            "description" : "Successful response",
             "schema" : {
-              "$ref" : "#/definitions/Company"
-            },
-            "examples" : {
-              "application/json" : "{\n  \"id\": \"0e8cedd0-ad98-11e6-bf2e-47644ada7c0f\",\n  \"name\": \"George Street Brewery\",\n  \"address\":{\n    \"street\": \"2 place de la Defense\",\n    \"zipcode\": \"92053\",\n    \"city\": \"Paris\"\n  },\n  \"tags\":[\n    \"brewery\",\n    \"beer\",\n    \"ale\"\n  ]\n}"
+              "$ref" : "#/definitions/BatchGetContactGroupsResponse"
             }
-          },
-          "400" : {
-            "description" : "Status 400",
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "batchGet",
+        "in" : "path",
+        "required" : true,
+        "type" : "string"
+      } ],
+      "x-restlet" : {
+        "section" : "CONTACTS"
+      }
+    },
+    "/v1/{resourceName}{deleteContact}" : {
+      "delete" : {
+        "tags" : [ "people" ],
+        "description" : "Delete a contact person. Any non-contact data will not be deleted.",
+        "operationId" : "people.people.deleteContact",
+        "parameters" : [ {
+          "name" : "$.xgafv",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "V1 error format.",
+          "enum" : [ "1", "2" ]
+        }, {
+          "name" : "access_token",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "OAuth access token."
+        }, {
+          "name" : "alt",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "Data format for response.",
+          "default" : "json",
+          "enum" : [ "json", "media", "proto" ]
+        }, {
+          "name" : "bearer_token",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "OAuth bearer token."
+        }, {
+          "name" : "callback",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "JSONP"
+        }, {
+          "name" : "fields",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "Selector specifying which fields to include in a partial response."
+        }, {
+          "name" : "key",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "API key. Your API key identifies your project and provides you with API access, quota, and reports. Required unless you provide an OAuth 2.0 token."
+        }, {
+          "name" : "oauth_token",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "OAuth 2.0 token for the current user."
+        }, {
+          "name" : "pp",
+          "in" : "query",
+          "required" : false,
+          "type" : "boolean",
+          "description" : "Pretty-print response.",
+          "default" : true
+        }, {
+          "name" : "prettyPrint",
+          "in" : "query",
+          "required" : false,
+          "type" : "boolean",
+          "description" : "Returns response with indentations and line breaks.",
+          "default" : true
+        }, {
+          "name" : "quotaUser",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "Available to use for quota purposes for server-side applications. Can be any arbitrary string assigned to a user, but should not exceed 40 characters."
+        }, {
+          "name" : "uploadType",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "Legacy upload protocol for media (e.g. \"media\", \"multipart\")."
+        }, {
+          "name" : "upload_protocol",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "Upload protocol for media (e.g. \"raw\", \"multipart\")."
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful response",
             "schema" : {
-              "$ref" : "#/definitions/Error"
+              "$ref" : "#/definitions/Empty"
+            }
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "resourceName",
+        "in" : "path",
+        "required" : true,
+        "type" : "string",
+        "description" : "The resource name of the contact to delete."
+      }, {
+        "name" : "deleteContact",
+        "in" : "path",
+        "required" : true,
+        "type" : "string"
+      } ],
+      "x-restlet" : {
+        "section" : "CONTACTS"
+      }
+    },
+    "/v1/{resourceName}" : {
+      "get" : {
+        "tags" : [ "contactGroups" ],
+        "description" : "Get a specific contact group owned by the authenticated user by specifying\na contact group resource name.",
+        "operationId" : "people.contactGroups.get",
+        "parameters" : [ {
+          "name" : "maxMembers",
+          "in" : "query",
+          "required" : false,
+          "type" : "integer",
+          "description" : "Specifies the maximum number of members to return."
+        }, {
+          "name" : "requestMask.includeField",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "**Required.** Comma-separated list of person fields to be included in the\nresponse. Each path should start with `person.`: for example,\n`person.names` or `person.photos`."
+        }, {
+          "name" : "access_token",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "OAuth access token."
+        }, {
+          "name" : "key",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "API key. Your API key identifies your project and provides you with API access, quota, and reports. Required unless you provide an OAuth 2.0 token."
+        }, {
+          "name" : "quotaUser",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "Available to use for quota purposes for server-side applications. Can be any arbitrary string assigned to a user, but should not exceed 40 characters."
+        }, {
+          "name" : "pp",
+          "in" : "query",
+          "required" : false,
+          "type" : "boolean",
+          "description" : "Pretty-print response.",
+          "default" : true
+        }, {
+          "name" : "bearer_token",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "OAuth bearer token."
+        }, {
+          "name" : "oauth_token",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "OAuth 2.0 token for the current user."
+        }, {
+          "name" : "upload_protocol",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "Upload protocol for media (e.g. \"raw\", \"multipart\")."
+        }, {
+          "name" : "prettyPrint",
+          "in" : "query",
+          "required" : false,
+          "type" : "boolean",
+          "description" : "Returns response with indentations and line breaks.",
+          "default" : true
+        }, {
+          "name" : "fields",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "Selector specifying which fields to include in a partial response."
+        }, {
+          "name" : "uploadType",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "Legacy upload protocol for media (e.g. \"media\", \"multipart\")."
+        }, {
+          "name" : "callback",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "JSONP"
+        }, {
+          "name" : "$.xgafv",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "V1 error format.",
+          "enum" : [ "1", "2" ]
+        }, {
+          "name" : "alt",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "Data format for response.",
+          "default" : "json",
+          "enum" : [ "json", "media", "proto" ]
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful response",
+            "schema" : {
+              "$ref" : "#/definitions/ContactGroup"
             }
           }
         }
       },
       "put" : {
-        "tags" : [ "Companies" ],
-        "summary" : "Update a Company",
-        "description" : "Stores a Company",
+        "tags" : [ "contactGroups" ],
+        "description" : "Update the name of an existing contact group owned by the authenticated\nuser.",
+        "operationId" : "people.contactGroups.update",
         "consumes" : [ ],
         "parameters" : [ {
+          "name" : "access_token",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "OAuth access token."
+        }, {
+          "name" : "key",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "API key. Your API key identifies your project and provides you with API access, quota, and reports. Required unless you provide an OAuth 2.0 token."
+        }, {
+          "name" : "quotaUser",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "Available to use for quota purposes for server-side applications. Can be any arbitrary string assigned to a user, but should not exceed 40 characters."
+        }, {
+          "name" : "pp",
+          "in" : "query",
+          "required" : false,
+          "type" : "boolean",
+          "description" : "Pretty-print response.",
+          "default" : true
+        }, {
+          "name" : "bearer_token",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "OAuth bearer token."
+        }, {
+          "name" : "oauth_token",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "OAuth 2.0 token for the current user."
+        }, {
+          "name" : "upload_protocol",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "Upload protocol for media (e.g. \"raw\", \"multipart\")."
+        }, {
+          "name" : "prettyPrint",
+          "in" : "query",
+          "required" : false,
+          "type" : "boolean",
+          "description" : "Returns response with indentations and line breaks.",
+          "default" : true
+        }, {
+          "name" : "fields",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "Selector specifying which fields to include in a partial response."
+        }, {
+          "name" : "uploadType",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "Legacy upload protocol for media (e.g. \"media\", \"multipart\")."
+        }, {
+          "name" : "callback",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "JSONP"
+        }, {
+          "name" : "$.xgafv",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "V1 error format.",
+          "enum" : [ "1", "2" ]
+        }, {
+          "name" : "alt",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "Data format for response.",
+          "default" : "json",
+          "enum" : [ "json", "media", "proto" ]
+        }, {
           "name" : "body",
           "in" : "body",
           "required" : true,
           "schema" : {
-            "$ref" : "#/definitions/Company"
-          },
-          "x-examples" : {
-            "application/json" : "{\n  \"name\": \"George Street Brewery\",\n  \"address\":{\n    \"street\": \"2 place de la Defense\",\n    \"zipcode\": \"92053\",\n    \"city\": \"Paris\"\n  },\n  \"tags\":[\n    \"brewery\",\n    \"beer\",\n    \"ale\"\n  ]\n}"
+            "$ref" : "#/definitions/UpdateContactGroupRequest"
           }
         } ],
         "responses" : {
           "200" : {
-            "description" : "Status 200",
+            "description" : "Successful response",
             "schema" : {
-              "$ref" : "#/definitions/Company"
-            },
-            "examples" : {
-              "application/json" : "{\n  \"id\": \"0e8cedd0-ad98-11e6-bf2e-47644ada7c0f\",\n  \"name\": \"George Street Brewery\",\n  \"address\":{\n    \"street\": \"2 place de la Defense\",\n    \"zipcode\": \"92053\",\n    \"city\": \"Paris\"\n  },\n  \"tags\":[\n    \"brewery\",\n    \"beer\",\n    \"ale\"\n  ]\n}"
+              "$ref" : "#/definitions/ContactGroup"
             }
           }
-        },
-        "security" : [ {
-          "HTTP_BASIC" : [ ]
-        } ]
+        }
       },
       "delete" : {
-        "tags" : [ "Companies" ],
-        "summary" : "Delete a Company",
-        "description" : "Deletes a Company",
-        "parameters" : [ ],
+        "tags" : [ "contactGroups" ],
+        "description" : "Delete an existing contact group owned by the authenticated user by\nspecifying a contact group resource name.",
+        "operationId" : "people.contactGroups.delete",
+        "parameters" : [ {
+          "name" : "deleteContacts",
+          "in" : "query",
+          "required" : false,
+          "type" : "boolean",
+          "description" : "Set to true to also delete the contacts in the specified group."
+        }, {
+          "name" : "access_token",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "OAuth access token."
+        }, {
+          "name" : "key",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "API key. Your API key identifies your project and provides you with API access, quota, and reports. Required unless you provide an OAuth 2.0 token."
+        }, {
+          "name" : "quotaUser",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "Available to use for quota purposes for server-side applications. Can be any arbitrary string assigned to a user, but should not exceed 40 characters."
+        }, {
+          "name" : "pp",
+          "in" : "query",
+          "required" : false,
+          "type" : "boolean",
+          "description" : "Pretty-print response.",
+          "default" : true
+        }, {
+          "name" : "bearer_token",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "OAuth bearer token."
+        }, {
+          "name" : "oauth_token",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "OAuth 2.0 token for the current user."
+        }, {
+          "name" : "upload_protocol",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "Upload protocol for media (e.g. \"raw\", \"multipart\")."
+        }, {
+          "name" : "prettyPrint",
+          "in" : "query",
+          "required" : false,
+          "type" : "boolean",
+          "description" : "Returns response with indentations and line breaks.",
+          "default" : true
+        }, {
+          "name" : "fields",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "Selector specifying which fields to include in a partial response."
+        }, {
+          "name" : "uploadType",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "Legacy upload protocol for media (e.g. \"media\", \"multipart\")."
+        }, {
+          "name" : "callback",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "JSONP"
+        }, {
+          "name" : "$.xgafv",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "V1 error format.",
+          "enum" : [ "1", "2" ]
+        }, {
+          "name" : "alt",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "Data format for response.",
+          "default" : "json",
+          "enum" : [ "json", "media", "proto" ]
+        } ],
         "responses" : {
           "200" : {
-            "description" : "Status 200"
+            "description" : "Successful response",
+            "schema" : {
+              "$ref" : "#/definitions/Empty"
+            }
           }
-        },
-        "security" : [ {
-          "HTTP_BASIC" : [ ]
-        } ]
+        }
       },
       "parameters" : [ {
-        "name" : "companyid",
+        "name" : "resourceName",
         "in" : "path",
         "required" : true,
         "type" : "string",
-        "description" : "Identifier of the Company",
-        "x-example" : "0e8c9fb0-ad98-11e6-bf2e-47644ada7c0f"
+        "description" : "The resource name of the contact group to get."
       } ],
       "x-restlet" : {
-        "section" : "Peoples"
+        "section" : "CONTACTS"
       }
     },
-    "/peoples.contactGroups" : {
-      "get" : {
-        "parameters" : [ ],
-        "responses" : {
-          "200" : {
-            "description" : "Status 200"
-          }
-        }
-      },
-      "x-restlet" : {
-        "section" : "Peoples"
-      }
-    },
-    "/peoples.persons" : {
-      "x-restlet" : {
-        "section" : "Peoples"
-      }
-    },
-    "/peoples.users" : {
-      "x-restlet" : {
-        "section" : "Peoples"
-      }
-    },
-    "/profiles.skills" : {
-      "x-restlet" : {
-        "section" : "Profiles"
-      }
-    },
-    "/profiles.competencies" : {
-      "x-restlet" : {
-        "section" : "Profiles"
-      }
-    },
-    "/profiles.occupations" : {
-      "x-restlet" : {
-        "section" : "Profiles"
-      }
-    },
-    "/profiles.studies" : {
-      "x-restlet" : {
-        "section" : "Profiles"
-      }
-    },
-    "/profiles.languages" : {
-      "x-restlet" : {
-        "section" : "Profiles"
-      }
-    },
-    "/services" : {
-      "get" : {
-        "summary" : "services.disable",
-        "description" : "Gets a managed service.",
-        "parameters" : [ {
-          "name" : "serviceName",
-          "in" : "query",
-          "required" : false,
-          "type" : "string",
-          "description" : "The name of the service"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Status 200"
-          }
-        }
-      },
+    "/v1/{resourceName}/members{modify}" : {
       "post" : {
-        "summary" : "services.create",
-        "description" : "Creates a new managed service.",
-        "parameters" : [ ],
-        "responses" : {
-          "200" : {
-            "description" : "Status 200"
-          }
-        }
-      },
-      "delete" : {
-        "summary" : "services.delete",
-        "description" : "Deletes a managed service. This method will change the service to the Soft-Delete state for 30 days. Within this period, service producers may call services.undelete to restore the service. After 30 days, the service will be permanently deleted.",
+        "tags" : [ "contactGroups" ],
+        "description" : "Modify the members of a contact group owned by the authenticated user.",
+        "operationId" : "people.contactGroups.members.modify",
+        "consumes" : [ ],
         "parameters" : [ {
-          "name" : "serviceName",
+          "name" : "$.xgafv",
           "in" : "query",
           "required" : false,
           "type" : "string",
-          "description" : "The name of the service."
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Status 200"
-          }
-        },
-        "security" : [ ]
-      },
-      "x-restlet" : {
-        "section" : "Services"
-      }
-    },
-    "/services/{serviceName}:disable" : {
-      "post" : {
-        "summary" : "services.disable",
-        "description" : "Disables a service for a project.",
-        "consumes" : [ "application/json" ],
-        "parameters" : [ {
-          "name" : "serviceName",
+          "description" : "V1 error format.",
+          "enum" : [ "1", "2" ]
+        }, {
+          "name" : "access_token",
           "in" : "query",
           "required" : false,
           "type" : "string",
-          "description" : "name of the service to disable."
+          "description" : "OAuth access token."
+        }, {
+          "name" : "alt",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "Data format for response.",
+          "default" : "json",
+          "enum" : [ "json", "media", "proto" ]
+        }, {
+          "name" : "bearer_token",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "OAuth bearer token."
+        }, {
+          "name" : "callback",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "JSONP"
+        }, {
+          "name" : "fields",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "Selector specifying which fields to include in a partial response."
+        }, {
+          "name" : "key",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "API key. Your API key identifies your project and provides you with API access, quota, and reports. Required unless you provide an OAuth 2.0 token."
+        }, {
+          "name" : "oauth_token",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "OAuth 2.0 token for the current user."
+        }, {
+          "name" : "pp",
+          "in" : "query",
+          "required" : false,
+          "type" : "boolean",
+          "description" : "Pretty-print response.",
+          "default" : true
+        }, {
+          "name" : "prettyPrint",
+          "in" : "query",
+          "required" : false,
+          "type" : "boolean",
+          "description" : "Returns response with indentations and line breaks.",
+          "default" : true
+        }, {
+          "name" : "quotaUser",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "Available to use for quota purposes for server-side applications. Can be any arbitrary string assigned to a user, but should not exceed 40 characters."
+        }, {
+          "name" : "uploadType",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "Legacy upload protocol for media (e.g. \"media\", \"multipart\")."
+        }, {
+          "name" : "upload_protocol",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "Upload protocol for media (e.g. \"raw\", \"multipart\")."
         }, {
           "name" : "body",
           "in" : "body",
           "required" : true,
           "schema" : {
-            "type" : "string",
-            "description" : "JSON representation\n```\n{\n  \"consumerId\": string,\n}\n```"
+            "$ref" : "#/definitions/ModifyContactGroupMembersRequest"
           }
         } ],
         "responses" : {
           "200" : {
-            "description" : "Status 200",
+            "description" : "Successful response",
             "schema" : {
-              "$ref" : "#/definitions/operations"
+              "$ref" : "#/definitions/ModifyContactGroupMembersResponse"
             }
           }
         }
       },
       "parameters" : [ {
-        "name" : "serviceName",
+        "name" : "resourceName",
+        "in" : "path",
+        "required" : true,
+        "type" : "string",
+        "description" : "The resource name of the contact group to modify."
+      }, {
+        "name" : "modify",
         "in" : "path",
         "required" : true,
         "type" : "string"
       } ],
       "x-restlet" : {
-        "section" : "Services"
+        "section" : "CONTACTS"
       }
     },
-    "/services/{serviceName}:enable" : {
-      "post" : {
-        "summary" : "services.enable",
-        "description" : "Enables a service for a project.",
-        "consumes" : [ "application/json" ],
+    "/v1/people{batchGet}" : {
+      "get" : {
+        "tags" : [ "people" ],
+        "description" : "Provides information about a list of specific people by specifying a list\nof requested resource names. Use `people/me` to indicate the authenticated\nuser.\n<br>\nThe request throws a 400 error if 'personFields' is not specified.",
+        "operationId" : "people.people.getBatchGet",
         "parameters" : [ {
-          "name" : "serviceName",
+          "name" : "personFields",
           "in" : "query",
           "required" : false,
           "type" : "string",
-          "description" : "name of the service to disable."
+          "description" : "**Required.** A field mask to restrict which fields on each person are\nreturned. Valid values are:\n\n* addresses\n* ageRanges\n* biographies\n* birthdays\n* braggingRights\n* coverPhotos\n* emailAddresses\n* events\n* genders\n* imClients\n* interests\n* locales\n* memberships\n* metadata\n* names\n* nicknames\n* occupations\n* organizations\n* phoneNumbers\n* photos\n* relations\n* relationshipInterests\n* relationshipStatuses\n* residences\n* skills\n* taglines\n* urls"
+        }, {
+          "name" : "requestMask.includeField",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "**Required.** Comma-separated list of person fields to be included in the\nresponse. Each path should start with `person.`: for example,\n`person.names` or `person.photos`."
+        }, {
+          "name" : "resourceNames",
+          "in" : "query",
+          "required" : false,
+          "type" : "array",
+          "description" : "The resource names of the people to provide information about.\n\n- To get information about the authenticated user, specify `people/me`.\n- To get information about a google account, specify\n  `people/`<var>account_id</var>.\n- To get information about a contact, specify the resource name that\n  identifies the contact as returned by\n[`people.connections.list`](/people/api/rest/v1/people.connections/list).\n\nYou can include up to 50 resource names in one request.",
+          "items" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "access_token",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "OAuth access token."
+        }, {
+          "name" : "key",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "API key. Your API key identifies your project and provides you with API access, quota, and reports. Required unless you provide an OAuth 2.0 token."
+        }, {
+          "name" : "quotaUser",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "Available to use for quota purposes for server-side applications. Can be any arbitrary string assigned to a user, but should not exceed 40 characters."
+        }, {
+          "name" : "pp",
+          "in" : "query",
+          "required" : false,
+          "type" : "boolean",
+          "description" : "Pretty-print response.",
+          "default" : true
+        }, {
+          "name" : "bearer_token",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "OAuth bearer token."
+        }, {
+          "name" : "oauth_token",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "OAuth 2.0 token for the current user."
+        }, {
+          "name" : "upload_protocol",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "Upload protocol for media (e.g. \"raw\", \"multipart\")."
+        }, {
+          "name" : "prettyPrint",
+          "in" : "query",
+          "required" : false,
+          "type" : "boolean",
+          "description" : "Returns response with indentations and line breaks.",
+          "default" : true
+        }, {
+          "name" : "fields",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "Selector specifying which fields to include in a partial response."
+        }, {
+          "name" : "uploadType",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "Legacy upload protocol for media (e.g. \"media\", \"multipart\")."
+        }, {
+          "name" : "callback",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "JSONP"
+        }, {
+          "name" : "$.xgafv",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "V1 error format.",
+          "enum" : [ "1", "2" ]
+        }, {
+          "name" : "alt",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "Data format for response.",
+          "default" : "json",
+          "enum" : [ "json", "media", "proto" ]
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful response",
+            "schema" : {
+              "$ref" : "#/definitions/GetPeopleResponse"
+            }
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "batchGet",
+        "in" : "path",
+        "required" : true,
+        "type" : "string"
+      } ],
+      "x-restlet" : {
+        "section" : "PEOPLES"
+      }
+    },
+    "/v1/people{createContact}" : {
+      "post" : {
+        "tags" : [ "people" ],
+        "description" : "Create a new contact and return the person resource for that contact.",
+        "operationId" : "people.people.createContact",
+        "consumes" : [ ],
+        "parameters" : [ {
+          "name" : "parent",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "The resource name of the owning person resource."
+        }, {
+          "name" : "$.xgafv",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "V1 error format.",
+          "enum" : [ "1", "2" ]
+        }, {
+          "name" : "access_token",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "OAuth access token."
+        }, {
+          "name" : "alt",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "Data format for response.",
+          "default" : "json",
+          "enum" : [ "json", "media", "proto" ]
+        }, {
+          "name" : "bearer_token",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "OAuth bearer token."
+        }, {
+          "name" : "callback",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "JSONP"
+        }, {
+          "name" : "fields",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "Selector specifying which fields to include in a partial response."
+        }, {
+          "name" : "key",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "API key. Your API key identifies your project and provides you with API access, quota, and reports. Required unless you provide an OAuth 2.0 token."
+        }, {
+          "name" : "oauth_token",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "OAuth 2.0 token for the current user."
+        }, {
+          "name" : "pp",
+          "in" : "query",
+          "required" : false,
+          "type" : "boolean",
+          "description" : "Pretty-print response.",
+          "default" : true
+        }, {
+          "name" : "prettyPrint",
+          "in" : "query",
+          "required" : false,
+          "type" : "boolean",
+          "description" : "Returns response with indentations and line breaks.",
+          "default" : true
+        }, {
+          "name" : "quotaUser",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "Available to use for quota purposes for server-side applications. Can be any arbitrary string assigned to a user, but should not exceed 40 characters."
+        }, {
+          "name" : "uploadType",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "Legacy upload protocol for media (e.g. \"media\", \"multipart\")."
+        }, {
+          "name" : "upload_protocol",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "Upload protocol for media (e.g. \"raw\", \"multipart\")."
         }, {
           "name" : "body",
           "in" : "body",
           "required" : true,
           "schema" : {
-            "type" : "string",
-            "description" : "JSON representation\n```\n{\n  \"consumerId\": string,\n}\n```"
+            "$ref" : "#/definitions/Person"
           }
         } ],
         "responses" : {
           "200" : {
-            "description" : "Status 200"
+            "description" : "Successful response",
+            "schema" : {
+              "$ref" : "#/definitions/Person"
+            }
           }
         }
       },
       "parameters" : [ {
-        "name" : "serviceName",
+        "name" : "createContact",
         "in" : "path",
         "required" : true,
         "type" : "string"
       } ],
       "x-restlet" : {
-        "section" : "Services"
+        "section" : "PEOPLES"
       }
     },
-    "/services/{serviceName}/config" : {
+    "/v1/{resourceName}/connections" : {
       "get" : {
-        "summary" : "services.getConfig",
-        "description" : "Gets a managed service.",
+        "tags" : [ "people" ],
+        "description" : "Provides a list of the authenticated user's contacts merged with any\nconnected profiles.\n<br>\nThe request throws a 400 error if 'personFields' is not specified.",
+        "operationId" : "people.people.connections.list",
         "parameters" : [ {
-          "name" : "configId",
+          "name" : "pageSize",
+          "in" : "query",
+          "required" : false,
+          "type" : "integer",
+          "description" : "The number of connections to include in the response. Valid values are\nbetween 1 and 2000, inclusive. Defaults to 100."
+        }, {
+          "name" : "pageToken",
           "in" : "query",
           "required" : false,
           "type" : "string",
-          "description" : "The id of the service configuration resource."
+          "description" : "The token of the page to be returned."
+        }, {
+          "name" : "personFields",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "**Required.** A field mask to restrict which fields on each person are\nreturned. Valid values are:\n\n* addresses\n* ageRanges\n* biographies\n* birthdays\n* braggingRights\n* coverPhotos\n* emailAddresses\n* events\n* genders\n* imClients\n* interests\n* locales\n* memberships\n* metadata\n* names\n* nicknames\n* occupations\n* organizations\n* phoneNumbers\n* photos\n* relations\n* relationshipInterests\n* relationshipStatuses\n* residences\n* skills\n* taglines\n* urls"
+        }, {
+          "name" : "requestMask.includeField",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "**Required.** Comma-separated list of person fields to be included in the\nresponse. Each path should start with `person.`: for example,\n`person.names` or `person.photos`."
+        }, {
+          "name" : "requestSyncToken",
+          "in" : "query",
+          "required" : false,
+          "type" : "boolean",
+          "description" : "Whether the response should include a sync token, which can be used to get\nall changes since the last request."
+        }, {
+          "name" : "sortOrder",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "The order in which the connections should be sorted. Defaults to\n`LAST_MODIFIED_ASCENDING`.",
+          "enum" : [ "LAST_MODIFIED_ASCENDING", "FIRST_NAME_ASCENDING", "LAST_NAME_ASCENDING" ]
+        }, {
+          "name" : "syncToken",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "A sync token, returned by a previous call to `people.connections.list`.\nOnly resources changed since the sync token was created will be returned."
+        }, {
+          "name" : "access_token",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "OAuth access token."
+        }, {
+          "name" : "key",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "API key. Your API key identifies your project and provides you with API access, quota, and reports. Required unless you provide an OAuth 2.0 token."
+        }, {
+          "name" : "quotaUser",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "Available to use for quota purposes for server-side applications. Can be any arbitrary string assigned to a user, but should not exceed 40 characters."
+        }, {
+          "name" : "pp",
+          "in" : "query",
+          "required" : false,
+          "type" : "boolean",
+          "description" : "Pretty-print response.",
+          "default" : true
+        }, {
+          "name" : "bearer_token",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "OAuth bearer token."
+        }, {
+          "name" : "oauth_token",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "OAuth 2.0 token for the current user."
+        }, {
+          "name" : "upload_protocol",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "Upload protocol for media (e.g. \"raw\", \"multipart\")."
+        }, {
+          "name" : "prettyPrint",
+          "in" : "query",
+          "required" : false,
+          "type" : "boolean",
+          "description" : "Returns response with indentations and line breaks.",
+          "default" : true
+        }, {
+          "name" : "fields",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "Selector specifying which fields to include in a partial response."
+        }, {
+          "name" : "uploadType",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "Legacy upload protocol for media (e.g. \"media\", \"multipart\")."
+        }, {
+          "name" : "callback",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "JSONP"
+        }, {
+          "name" : "$.xgafv",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "V1 error format.",
+          "enum" : [ "1", "2" ]
+        }, {
+          "name" : "alt",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "Data format for response.",
+          "default" : "json",
+          "enum" : [ "json", "media", "proto" ]
         } ],
         "responses" : {
           "200" : {
-            "description" : "Status 200"
+            "description" : "Successful response",
+            "schema" : {
+              "$ref" : "#/definitions/ListConnectionsResponse"
+            }
           }
         }
       },
       "parameters" : [ {
-        "name" : "serviceName",
+        "name" : "resourceName",
+        "in" : "path",
+        "required" : true,
+        "type" : "string",
+        "description" : "The resource name to return connections for. Only `people/me` is valid."
+      } ],
+      "x-restlet" : {
+        "section" : "PEOPLES"
+      }
+    },
+    "/v1/{resourceName}{updateContact}" : {
+      "patch" : {
+        "tags" : [ "people" ],
+        "description" : "Update contact data for an existing contact person. Any non-contact data\nwill not be modified.\n\nThe request throws a 400 error if `updatePersonFields` is not specified.\n<br>\nThe request throws a 400 error if `person.metadata.sources` is not\nspecified for the contact to be updated.\n<br>\nThe request throws a 412 error if `person.metadata.sources.etag` is\ndifferent than the contact's etag, which indicates the contact has changed\nsince its data was read. Clients should get the latest person and re-apply\ntheir updates to the latest person.",
+        "operationId" : "people.people.updateContact",
+        "consumes" : [ ],
+        "parameters" : [ {
+          "name" : "updatePersonFields",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "**Required.** A field mask to restrict which fields on the person are\nupdated. Valid values are:\n\n* addresses\n* biographies\n* birthdays\n* braggingRights\n* emailAddresses\n* events\n* genders\n* imClients\n* interests\n* locales\n* names\n* nicknames\n* occupations\n* organizations\n* phoneNumbers\n* relations\n* residences\n* skills\n* urls"
+        }, {
+          "name" : "$.xgafv",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "V1 error format.",
+          "enum" : [ "1", "2" ]
+        }, {
+          "name" : "access_token",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "OAuth access token."
+        }, {
+          "name" : "alt",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "Data format for response.",
+          "default" : "json",
+          "enum" : [ "json", "media", "proto" ]
+        }, {
+          "name" : "bearer_token",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "OAuth bearer token."
+        }, {
+          "name" : "callback",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "JSONP"
+        }, {
+          "name" : "fields",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "Selector specifying which fields to include in a partial response."
+        }, {
+          "name" : "key",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "API key. Your API key identifies your project and provides you with API access, quota, and reports. Required unless you provide an OAuth 2.0 token."
+        }, {
+          "name" : "oauth_token",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "OAuth 2.0 token for the current user."
+        }, {
+          "name" : "pp",
+          "in" : "query",
+          "required" : false,
+          "type" : "boolean",
+          "description" : "Pretty-print response.",
+          "default" : true
+        }, {
+          "name" : "prettyPrint",
+          "in" : "query",
+          "required" : false,
+          "type" : "boolean",
+          "description" : "Returns response with indentations and line breaks.",
+          "default" : true
+        }, {
+          "name" : "quotaUser",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "Available to use for quota purposes for server-side applications. Can be any arbitrary string assigned to a user, but should not exceed 40 characters."
+        }, {
+          "name" : "uploadType",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "Legacy upload protocol for media (e.g. \"media\", \"multipart\")."
+        }, {
+          "name" : "upload_protocol",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "Upload protocol for media (e.g. \"raw\", \"multipart\")."
+        }, {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Person"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful response",
+            "schema" : {
+              "$ref" : "#/definitions/Person"
+            }
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "resourceName",
+        "in" : "path",
+        "required" : true,
+        "type" : "string",
+        "description" : "The resource name for the person, assigned by the server. An ASCII string\nwith a max length of 27 characters, in the form of\n`people/`<var>person_id</var>."
+      }, {
+        "name" : "updateContact",
         "in" : "path",
         "required" : true,
         "type" : "string"
       } ],
       "x-restlet" : {
-        "section" : "Services"
+        "section" : "PEOPLES"
       }
-    }
-  },
-  "securityDefinitions" : {
-    "HTTP_BASIC" : {
-      "description" : "All GET methods are public, meaning that *you can read all the data*. Write operations require authentication and therefore are forbidden to the general public.",
-      "type" : "basic"
-    },
-    "Basic authentication" : {
-      "type" : "basic"
-    },
-    "OAuth2" : {
-      "type" : "oauth2",
-      "authorizationUrl" : "",
-      "tokenUrl" : "",
-      "flow" : "accessCode",
-      "scopes" : { }
     }
   },
   "definitions" : {
-    "department" : {
-      "type" : "object",
-      "x-restlet" : {
-        "section" : "Organizations"
-      }
-    },
-    "organization" : {
+    "Address" : {
       "type" : "object",
       "properties" : {
-        "description" : {
+        "city" : {
           "type" : "string",
-          "description" : "Description of the organization unit."
+          "description" : "The city of the address."
+        },
+        "country" : {
+          "type" : "string",
+          "description" : "The country of the address."
+        },
+        "countryCode" : {
+          "type" : "string",
+          "description" : "The [ISO 3166-1 alpha-2](http://www.iso.org/iso/country_codes.htm) country\ncode of the address."
+        },
+        "extendedAddress" : {
+          "type" : "string",
+          "description" : "The extended address of the address; for example, the apartment number."
+        },
+        "formattedType" : {
+          "type" : "string",
+          "description" : "The read-only type of the address translated and formatted in the viewer's\naccount locale or the `Accept-Language` HTTP header locale."
+        },
+        "formattedValue" : {
+          "type" : "string",
+          "description" : "The unstructured value of the address. If this is not set by the user it\nwill be automatically constructed from structured values."
+        },
+        "metadata" : {
+          "$ref" : "#/definitions/FieldMetadata"
+        },
+        "poBox" : {
+          "type" : "string",
+          "description" : "The P.O. box of the address."
+        },
+        "postalCode" : {
+          "type" : "string",
+          "description" : "The postal code of the address."
+        },
+        "region" : {
+          "type" : "string",
+          "description" : "The region of the address; for example, the state or province."
+        },
+        "streetAddress" : {
+          "type" : "string",
+          "description" : "The street address."
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The type of the address. The type can be custom or predefined.\nPossible values include, but are not limited to, the following:\n\n* `home`\n* `work`\n* `other`"
         }
       },
+      "description" : "A person's physical address. May be a P.O. box or street address. All fields\nare optional.",
       "x-restlet" : {
-        "section" : "Organizations"
+        "section" : "TYPES"
       }
     },
-    "Company" : {
+    "AgeRangeType" : {
       "type" : "object",
-      "required" : [ "address", "id", "name" ],
       "properties" : {
-        "id" : {
+        "ageRange" : {
           "type" : "string",
-          "description" : "Auto-generated primary key field"
+          "description" : "The age range.",
+          "enum" : [ "AGE_RANGE_UNSPECIFIED", "LESS_THAN_EIGHTEEN", "EIGHTEEN_TO_TWENTY", "TWENTY_ONE_OR_OLDER" ]
         },
-        "name" : {
-          "type" : "string"
-        },
-        "tags" : {
+        "metadata" : {
+          "$ref" : "#/definitions/FieldMetadata"
+        }
+      },
+      "description" : "A person's age range.",
+      "x-restlet" : {
+        "section" : "TYPES"
+      }
+    },
+    "BatchGetContactGroupsResponse" : {
+      "type" : "object",
+      "properties" : {
+        "responses" : {
           "type" : "array",
+          "description" : "The list of responses for each requested contact group resource.",
           "items" : {
-            "type" : "string",
-            "pattern" : "[a-zA-Z]+"
-          },
-          "example" : "[\"brewery\", \"beer\", \"ale\"]"
-        },
-        "address" : {
-          "required" : [ "city", "street", "zipcode" ],
-          "type" : "object",
-          "properties" : {
-            "street" : {
-              "type" : "string"
-            },
-            "city" : {
-              "type" : "string"
-            },
-            "zipcode" : {
-              "type" : "string",
-              "pattern" : "[0-9]*"
-            }
+            "$ref" : "#/definitions/ContactGroupResponse"
           }
         }
       },
-      "description" : "A representation of a Company.",
-      "example" : "{\n  \"id\": \"0e8cedd0-ad98-11e6-bf2e-47644ada7c0f\",\n  \"name\": \"George Street Brewery\",\n  \"address\":{\n    \"street\": \"2 place de la Defense\",\n    \"zipcode\": \"92053\",\n    \"city\": \"Paris\"\n  },\n  \"tags\":[\n    \"brewery\",\n    \"beer\",\n    \"ale\"\n  ]\n}",
+      "description" : "The response to a batch get contact groups request.",
       "x-restlet" : {
-        "section" : "Companies"
+        "section" : "TYPES"
       }
     },
-    "Organization" : {
+    "Biography" : {
       "type" : "object",
+      "properties" : {
+        "contentType" : {
+          "type" : "string",
+          "description" : "The content type of the biography.",
+          "enum" : [ "CONTENT_TYPE_UNSPECIFIED", "TEXT_PLAIN", "TEXT_HTML" ]
+        },
+        "metadata" : {
+          "$ref" : "#/definitions/FieldMetadata"
+        },
+        "value" : {
+          "type" : "string",
+          "description" : "The short biography."
+        }
+      },
+      "description" : "A person's short biography.",
       "x-restlet" : {
-        "section" : "Companies"
+        "section" : "TYPES"
+      }
+    },
+    "Birthday" : {
+      "type" : "object",
+      "properties" : {
+        "date" : {
+          "$ref" : "#/definitions/Date"
+        },
+        "metadata" : {
+          "$ref" : "#/definitions/FieldMetadata"
+        },
+        "text" : {
+          "type" : "string",
+          "description" : "A free-form string representing the user's birthday."
+        }
+      },
+      "description" : "A person's birthday. At least one of the `date` and `text` fields are\nspecified. The `date` and `text` fields typically represent the same\ndate, but are not guaranteed to.",
+      "x-restlet" : {
+        "section" : "TYPES"
+      }
+    },
+    "BraggingRights" : {
+      "type" : "object",
+      "properties" : {
+        "metadata" : {
+          "$ref" : "#/definitions/FieldMetadata"
+        },
+        "value" : {
+          "type" : "string",
+          "description" : "The bragging rights; for example, `climbed mount everest`."
+        }
+      },
+      "description" : "A person's bragging rights.",
+      "x-restlet" : {
+        "section" : "TYPES"
       }
     },
     "ContactGroup" : {
       "type" : "object",
       "properties" : {
-        "resourceName" : {
-          "type" : "string",
-          "description" : "The resource name for the contact group, assigned by the server. An ASCII string, in the form of contactGroups/contactGroupId."
-        },
         "etag" : {
           "type" : "string",
-          "description" : "The HTTP entity tag of the resource. Used for web cache validation."
-        },
-        "metadata" : {
-          "$ref" : "#/definitions/GroupType"
-        },
-        "name" : {
-          "type" : "string",
-          "description" : "The contact group name set by the group owner or a system provided name for system groups."
+          "description" : "The [HTTP entity tag](https://en.wikipedia.org/wiki/HTTP_ETag) of the\nresource. Used for web cache validation."
         },
         "formattedName" : {
           "type" : "string",
-          "description" : "The read-only name translated and formatted in the viewer's account locale or the Accept-Language HTTP header locale for system groups names. Group names set by the owner are the same as name."
+          "description" : "The read-only name translated and formatted in the viewer's account locale\nor the `Accept-Language` HTTP header locale for system groups names.\nGroup names set by the owner are the same as name."
         },
-        "memberResourceNames" : {
+        "groupType" : {
           "type" : "string",
-          "description" : "The list of contact person resource names that are members of the contact group. The field is not populated for LIST requests and can only be updated through the members.modify."
+          "description" : "The read-only contact group type.",
+          "enum" : [ "GROUP_TYPE_UNSPECIFIED", "USER_CONTACT_GROUP", "SYSTEM_CONTACT_GROUP" ]
         },
         "memberCount" : {
-          "type" : "number",
-          "description" : "The total number of contacts in the group irrespective of max members in specified in the request."
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of contacts in the group irrespective of max members in\nspecified in the request."
+        },
+        "memberResourceNames" : {
+          "type" : "array",
+          "description" : "The list of contact person resource names that are members of the contact\ngroup. The field is not populated for LIST requests and can only be updated\nthrough the\n[ModifyContactGroupMembers](/people/api/rest/v1/contactgroups/members/modify).",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "metadata" : {
+          "$ref" : "#/definitions/ContactGroupMetadata"
+        },
+        "name" : {
+          "type" : "string",
+          "description" : "The contact group name set by the group owner or a system provided name\nfor system groups."
+        },
+        "resourceName" : {
+          "type" : "string",
+          "description" : "The resource name for the contact group, assigned by the server. An ASCII\nstring, in the form of `contactGroups/`<var>contact_group_id</var>."
         }
       },
-      "description" : "A contact group.\n\n```\n{\n  \"resourceName\": string,\n  \"etag\": string,\n  \"metadata\": {\n    object(ContactGroupMetadata)\n  },\n  \"groupType\": enum(GroupType),\n  \"name\": string,\n  \"formattedName\": string,\n  \"memberResourceNames\": [\n    string\n  ],\n  \"memberCount\": number,\n}\n```",
+      "description" : "A contact group.",
       "x-restlet" : {
-        "section" : "Peoples"
+        "section" : "TYPES"
+      }
+    },
+    "ContactGroupMembership" : {
+      "type" : "object",
+      "properties" : {
+        "contactGroupId" : {
+          "type" : "string",
+          "description" : "The contact group ID for the contact group membership. The contact group\nID can be custom or predefined. Possible values include, but are not\nlimited to, the following:\n\n*  `myContacts`\n*  `starred`\n*  A numerical ID for user-created groups."
+        }
+      },
+      "description" : "A Google contact group membership.",
+      "x-restlet" : {
+        "section" : "TYPES"
       }
     },
     "ContactGroupMetadata" : {
       "type" : "object",
       "properties" : {
-        "updateTime" : {
-          "type" : "string",
-          "format" : "date"
-        },
         "deleted" : {
           "type" : "boolean",
-          "description" : "True if the contact group resource has been deleted. Populated only for contactGroups.list requests that include a sync token."
+          "description" : "True if the contact group resource has been deleted. Populated only for\n[`ListContactGroups`](/people/api/rest/v1/contactgroups/list) requests\nthat include a sync token."
+        },
+        "updateTime" : {
+          "type" : "string",
+          "description" : "The time the group was last updated."
         }
       },
-      "description" : "The read-only metadata about a contact group.\n\n```\n{\n  \"updateTime\": string,\n  \"deleted\": boolean,\n}\n```",
+      "description" : "The read-only metadata about a contact group.",
       "x-restlet" : {
-        "section" : "Peoples"
+        "section" : "TYPES"
       }
     },
-    "GroupType" : {
-      "type" : "object",
-      "description" : "A contact group type.\n\nEnums\nGROUP_TYPE_UNSPECIFIED\tUnspecified.\nUSER_CONTACT_GROUP\tUser defined contact group.\nSYSTEM_CONTACT_GROUP\tSystem defined contact group.\n",
-      "x-restlet" : {
-        "section" : "Peoples"
-      }
-    },
-    "PersonMetadata" : {
-      "type" : "object",
-      "x-restlet" : {
-        "section" : "Peoples"
-      }
-    },
-    "People" : {
+    "ContactGroupResponse" : {
       "type" : "object",
       "properties" : {
-        "resourceName" : {
+        "contactGroup" : {
+          "$ref" : "#/definitions/ContactGroup"
+        },
+        "requestedResourceName" : {
           "type" : "string",
-          "description" : "The resource name for the person, assigned by the server. An ASCII string with a max length of 27 characters, in the form of people/person_id."
+          "description" : "The original requested resource name."
         },
-        "etag" : {
-          "type" : "string",
-          "description" : "string\n\nThe HTTP entity tag of the resource. Used for web cache validation."
-        },
-        "metadata" : {
-          "type" : "string"
-        }
-      },
-      "example" : "{\n  \"resourceName\": string,\n  \"etag\": string,\n  \"metadata\": {\n    object(PersonMetadata)\n  },\n  \"locales\": [\n    {\n      object(Locale)\n    }\n  ],\n  \"names\": [\n    {\n      object(Name)\n    }\n  ],\n  \"nicknames\": [\n    {\n      object(Nickname)\n    }\n  ],\n  \"coverPhotos\": [\n    {\n      object(CoverPhoto)\n    }\n  ],\n  \"photos\": [\n    {\n      object(Photo)\n    }\n  ],\n  \"genders\": [\n    {\n      object(Gender)\n    }\n  ],\n  \"ageRange\": enum(AgeRange),\n  \"ageRanges\": [\n    {\n      object(AgeRangeType)\n    }\n  ],\n  \"birthdays\": [\n    {\n      object(Birthday)\n    }\n  ],\n  \"events\": [\n    {\n      object(Event)\n    }\n  ],\n  \"addresses\": [\n    {\n      object(Address)\n    }\n  ],\n  \"residences\": [\n    {\n      object(Residence)\n    }\n  ],\n  \"emailAddresses\": [\n    {\n      object(EmailAddress)\n    }\n  ],\n  \"phoneNumbers\": [\n    {\n      object(PhoneNumber)\n    }\n  ],\n  \"imClients\": [\n    {\n      object(ImClient)\n    }\n  ],\n  \"taglines\": [\n    {\n      object(Tagline)\n    }\n  ],\n  \"biographies\": [\n    {\n      object(Biography)\n    }\n  ],\n  \"urls\": [\n    {\n      object(Url)\n    }\n  ],\n  \"organizations\": [\n    {\n      object(Organization)\n    }\n  ],\n  \"occupations\": [\n    {\n      object(Occupation)\n    }\n  ],\n  \"interests\": [\n    {\n      object(Interest)\n    }\n  ],\n  \"skills\": [\n    {\n      object(Skill)\n    }\n  ],\n  \"braggingRights\": [\n    {\n      object(BraggingRights)\n    }\n  ],\n  \"relations\": [\n    {\n      object(Relation)\n    }\n  ],\n  \"relationshipInterests\": [\n    {\n      object(RelationshipInterest)\n    }\n  ],\n  \"relationshipStatuses\": [\n    {\n      object(RelationshipStatus)\n    }\n  ],\n  \"memberships\": [\n    {\n      object(Membership)\n    }\n  ],\n  \"userDefined\": [\n    {\n      object(UserDefined)\n    }\n  ],\n}",
-      "x-restlet" : {
-        "section" : "Peoples"
-      }
-    },
-    "ProfileMetadata" : {
-      "type" : "object",
-      "x-restlet" : {
-        "section" : "Profiles"
-      }
-    },
-    "services" : {
-      "type" : "object",
-      "properties" : {
-        "serviceName" : {
-          "type" : "string",
-          "description" : "The name of the service. See the overview for naming requirements."
-        },
-        "producerProjectId" : {
-          "type" : "string",
-          "description" : "ID of the project that produces and owns this service."
-        }
-      },
-      "description" : "The full representation of a Service",
-      "x-restlet" : {
-        "section" : "Services"
-      }
-    },
-    "operations" : {
-      "type" : "object",
-      "properties" : {
-        "name" : {
-          "type" : "string",
-          "description" : "The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the name should have the format of operations/some/unique/name."
-        },
-        "metadata" : {
-          "type" : "object",
-          "description" : "Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any.\n\nAn object containing fields of an arbitrary type. An additional field \"@type\" contains a URI identifying the type. Example: { \"id\": 1234, \"@type\": \"types.example.com/standard/id\" }.",
-          "properties" : {
-            "@type" : {
-              "type" : "string"
-            }
-          }
-        },
-        "done" : {
-          "type" : "boolean",
-          "description" : "If the value is false, it means the operation is still in progress. If true, the operation is completed, and either error or response is available."
-        },
-        "error" : {
+        "status" : {
           "$ref" : "#/definitions/Status"
-        },
-        "response" : {
-          "type" : "object",
-          "properties" : {
-            "@type" : {
-              "type" : "string"
-            }
-          }
         }
       },
-      "description" : "This resource represents a long-running operation that is the result of a network API call",
+      "description" : "The response for a specific contact group.",
       "x-restlet" : {
-        "section" : "Services"
-      }
-    },
-    "Activity" : {
-      "type" : "object",
-      "x-restlet" : {
-        "section" : "Types"
-      }
-    },
-    "Address" : {
-      "type" : "object",
-      "x-restlet" : {
-        "section" : "Types"
-      }
-    },
-    "AddOn" : {
-      "type" : "object",
-      "x-restlet" : {
-        "section" : "Types"
-      }
-    },
-    "Announcement" : {
-      "type" : "object",
-      "x-restlet" : {
-        "section" : "Types"
-      }
-    },
-    "Attachment" : {
-      "type" : "object",
-      "x-restlet" : {
-        "section" : "Types"
-      }
-    },
-    "Authorization" : {
-      "type" : "object",
-      "x-restlet" : {
-        "section" : "Types"
-      }
-    },
-    "Batch" : {
-      "type" : "object",
-      "x-restlet" : {
-        "section" : "Types"
-      }
-    },
-    "Category" : {
-      "type" : "object",
-      "required" : [ "name", "type" ],
-      "properties" : {
-        "id" : {
-          "type" : "string",
-          "description" : "Identifier"
-        },
-        "description" : {
-          "type" : "string"
-        },
-        "likeCount" : {
-          "type" : "integer",
-          "description" : "Number of people who have liked this object."
-        },
-        "name" : {
-          "type" : "string",
-          "description" : "Name of the category."
-        },
-        "place" : {
-          "type" : "string",
-          "description" : "URI of the place where this category belongs."
-        },
-        "tags" : {
-          "type" : "array",
-          "description" : "Tags associated with this object.",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "type" : {
-          "type" : "string",
-          "description" : "The object type for this object (\"category\"). This field is required when creating new content."
-        },
-        "updated" : {
-          "type" : "string",
-          "format" : "date",
-          "description" : "Date and time this object was most recently updated."
-        },
-        "followed" : {
-          "type" : "boolean",
-          "description" : "Whether the current user is following this object.\n\nAvailability:\n\nWill be present only for object types that support being followed."
-        },
-        "published" : {
-          "type" : "string",
-          "format" : "date",
-          "description" : "Date and time this object was originally created."
-        },
-        "resources" : {
-          "type" : "object",
-          "description" : "Resource links (and related permissions for the requesting person) relevant to this object.",
-          "properties" : {
-            "self - GET" : {
-              "type" : "string",
-              "description" : "Return an updated version of this category.\n\nRetrieves:\n\nCategory representing the updated category"
-            },
-            "self - PUT" : {
-              "type" : "string",
-              "description" : "Update the information about this category.\n\nRetrieves:\n\nCategory representing the updated category"
-            },
-            "self - DELETE" : {
-              "type" : "string",
-              "description" : "Delete the existing category for the specified place. Only admins of the place can manage place categories."
-            }
-          }
-        }
-      },
-      "description" : "A Category is a way to organize content within a place. Categories have a name, tags, and a parent place. When creating or updating content, you can specify a list of categories for that content object. An example JSON representation looks like this:\n```\n {\n    \"name\" : \"Animals\",\n    \"tags\" : [ ],\n    \"place\" : \"https://example.com/api/core/v3/places/1116\",\n    \"id\" : \"1002\",\n    \"resources\" : {\n      \"self\" : {\n        \"ref\" : \"https://example.com/api/core/v3/places/1116/categories/1002\",\n        \"allowed\" : [ \"GET\", \"DELETE\", \"PUT\" ]\n      }\n    }\n }\n```\n",
-      "example" : "Description of the category.",
-      "x-restlet" : {
-        "section" : "Types"
-      }
-    },
-    "Comment" : {
-      "type" : "object",
-      "x-restlet" : {
-        "section" : "Types"
+        "section" : "TYPES"
       }
     },
     "CoverPhoto" : {
       "type" : "object",
-      "x-restlet" : {
-        "section" : "Types"
-      }
-    },
-    "Deleted Object" : {
-      "type" : "object",
-      "description" : "A Deleted Object is a marker left behind to represent an entity that has been removed from API. This object can represent content, a place, a service, a product or a person.",
-      "x-restlet" : {
-        "section" : "Types"
-      }
-    },
-    "Error" : {
-      "type" : "object",
-      "required" : [ "code" ],
       "properties" : {
-        "code" : {
-          "type" : "integer",
-          "minimum" : 400,
-          "maximum" : 599
+        "default" : {
+          "type" : "boolean",
+          "description" : "True if the cover photo is the default cover photo;\nfalse if the cover photo is a user-provided cover photo."
         },
-        "description" : {
-          "type" : "string",
-          "example" : "Bad query parameter [$size]: Invalid integer value [abc]"
+        "metadata" : {
+          "$ref" : "#/definitions/FieldMetadata"
         },
-        "reasonPhrase" : {
+        "url" : {
           "type" : "string",
-          "example" : "Bad Request"
+          "description" : "The URL of the cover photo."
         }
       },
-      "description" : "This general error structure is used throughout this API.",
-      "example" : "{\n  \"code\": 400,\n  \"description\": \"Bad query parameter [$size]: Invalid integer value [abc]\",\n  \"reasonPhrase\": \"Bad Request\"\n}",
+      "description" : "A person's read-only cover photo. A large image shown on the person's\nprofile page that represents who they are or what they care about.",
       "x-restlet" : {
-        "section" : "Types"
+        "section" : "TYPES"
+      }
+    },
+    "CreateContactGroupRequest" : {
+      "type" : "object",
+      "properties" : {
+        "contactGroup" : {
+          "$ref" : "#/definitions/ContactGroup"
+        }
+      },
+      "description" : "A request to create a new contact group.",
+      "x-restlet" : {
+        "section" : "TYPES"
+      }
+    },
+    "Date" : {
+      "type" : "object",
+      "properties" : {
+        "day" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Day of month. Must be from 1 to 31 and valid for the year and month, or 0\nif specifying a year/month where the day is not significant."
+        },
+        "month" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Month of year. Must be from 1 to 12."
+        },
+        "year" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Year of date. Must be from 1 to 9999, or 0 if specifying a date without\na year."
+        }
+      },
+      "description" : "Represents a whole calendar date, for example a date of birth. The time\nof day and time zone are either specified elsewhere or are not\nsignificant. The date is relative to the\n[Proleptic Gregorian Calendar](https://en.wikipedia.org/wiki/Proleptic_Gregorian_calendar).\nThe day may be 0 to represent a year and month where the day is not\nsignificant. The year may be 0 to represent a month and day independent\nof year; for example, anniversary date.",
+      "x-restlet" : {
+        "section" : "TYPES"
+      }
+    },
+    "DomainMembership" : {
+      "type" : "object",
+      "properties" : {
+        "inViewerDomain" : {
+          "type" : "boolean",
+          "description" : "True if the person is in the viewer's Google Apps domain."
+        }
+      },
+      "description" : "A Google Apps Domain membership.",
+      "x-restlet" : {
+        "section" : "TYPES"
+      }
+    },
+    "EmailAddress" : {
+      "type" : "object",
+      "properties" : {
+        "displayName" : {
+          "type" : "string",
+          "description" : "The display name of the email."
+        },
+        "formattedType" : {
+          "type" : "string",
+          "description" : "The read-only type of the email address translated and formatted in the\nviewer's account locale or the `Accept-Language` HTTP header locale."
+        },
+        "metadata" : {
+          "$ref" : "#/definitions/FieldMetadata"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The type of the email address. The type can be custom or predefined.\nPossible values include, but are not limited to, the following:\n\n* `home`\n* `work`\n* `other`"
+        },
+        "value" : {
+          "type" : "string",
+          "description" : "The email address."
+        }
+      },
+      "description" : "A person's email address.",
+      "x-restlet" : {
+        "section" : "TYPES"
+      }
+    },
+    "Empty" : {
+      "type" : "object",
+      "description" : "A generic empty message that you can re-use to avoid defining duplicated\nempty messages in your APIs. A typical example is to use it as the request\nor the response type of an API method. For instance:\n\n    service Foo {\n      rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty);\n    }\n\nThe JSON representation for `Empty` is empty JSON object `{}`.",
+      "x-restlet" : {
+        "section" : "TYPES"
+      }
+    },
+    "Event" : {
+      "type" : "object",
+      "properties" : {
+        "date" : {
+          "$ref" : "#/definitions/Date"
+        },
+        "formattedType" : {
+          "type" : "string",
+          "description" : "The read-only type of the event translated and formatted in the\nviewer's account locale or the `Accept-Language` HTTP header locale."
+        },
+        "metadata" : {
+          "$ref" : "#/definitions/FieldMetadata"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The type of the event. The type can be custom or predefined.\nPossible values include, but are not limited to, the following:\n\n* `anniversary`\n* `other`"
+        }
+      },
+      "description" : "An event related to the person.",
+      "x-restlet" : {
+        "section" : "TYPES"
       }
     },
     "FieldMetadata" : {
       "type" : "object",
+      "properties" : {
+        "primary" : {
+          "type" : "boolean",
+          "description" : "True if the field is the primary field; false if the field is a secondary\nfield."
+        },
+        "source" : {
+          "$ref" : "#/definitions/Source"
+        },
+        "verified" : {
+          "type" : "boolean",
+          "description" : "True if the field is verified; false if the field is unverified. A\nverified field is typically a name, email address, phone number, or\nwebsite that has been confirmed to be owned by the person."
+        }
+      },
+      "description" : "Metadata about a field.",
       "x-restlet" : {
-        "section" : "Types"
+        "section" : "TYPES"
       }
     },
     "Gender" : {
       "type" : "object",
+      "properties" : {
+        "formattedValue" : {
+          "type" : "string",
+          "description" : "The read-only value of the gender translated and formatted in the viewer's\naccount locale or the `Accept-Language` HTTP header locale."
+        },
+        "metadata" : {
+          "$ref" : "#/definitions/FieldMetadata"
+        },
+        "value" : {
+          "type" : "string",
+          "description" : "The gender for the person. The gender can be custom or predefined.\nPossible values include, but are not limited to, the\nfollowing:\n\n* `male`\n* `female`\n* `other`\n* `unknown`"
+        }
+      },
+      "description" : "A person's gender.",
       "x-restlet" : {
-        "section" : "Types"
+        "section" : "TYPES"
       }
     },
-    "Image" : {
+    "GetPeopleResponse" : {
       "type" : "object",
+      "properties" : {
+        "responses" : {
+          "type" : "array",
+          "description" : "The response for each requested resource name.",
+          "items" : {
+            "$ref" : "#/definitions/PersonResponse"
+          }
+        }
+      },
       "x-restlet" : {
-        "section" : "Types"
+        "section" : "TYPES"
+      }
+    },
+    "ImClient" : {
+      "type" : "object",
+      "properties" : {
+        "formattedProtocol" : {
+          "type" : "string",
+          "description" : "The read-only protocol of the IM client formatted in the viewer's account\nlocale or the `Accept-Language` HTTP header locale."
+        },
+        "formattedType" : {
+          "type" : "string",
+          "description" : "The read-only type of the IM client translated and formatted in the\nviewer's account locale or the `Accept-Language` HTTP header locale."
+        },
+        "metadata" : {
+          "$ref" : "#/definitions/FieldMetadata"
+        },
+        "protocol" : {
+          "type" : "string",
+          "description" : "The protocol of the IM client. The protocol can be custom or predefined.\nPossible values include, but are not limited to, the following:\n\n* `aim`\n* `msn`\n* `yahoo`\n* `skype`\n* `qq`\n* `googleTalk`\n* `icq`\n* `jabber`\n* `netMeeting`"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The type of the IM client. The type can be custom or predefined.\nPossible values include, but are not limited to, the following:\n\n* `home`\n* `work`\n* `other`"
+        },
+        "username" : {
+          "type" : "string",
+          "description" : "The user name used in the IM client."
+        }
+      },
+      "description" : "A person's instant messaging client.",
+      "x-restlet" : {
+        "section" : "TYPES"
+      }
+    },
+    "Interest" : {
+      "type" : "object",
+      "properties" : {
+        "metadata" : {
+          "$ref" : "#/definitions/FieldMetadata"
+        },
+        "value" : {
+          "type" : "string",
+          "description" : "The interest; for example, `stargazing`."
+        }
+      },
+      "description" : "One of the person's interests.",
+      "x-restlet" : {
+        "section" : "TYPES"
+      }
+    },
+    "ListConnectionsResponse" : {
+      "type" : "object",
+      "properties" : {
+        "connections" : {
+          "type" : "array",
+          "description" : "The list of people that the requestor is connected to.",
+          "items" : {
+            "$ref" : "#/definitions/Person"
+          }
+        },
+        "nextPageToken" : {
+          "type" : "string",
+          "description" : "The token that can be used to retrieve the next page of results."
+        },
+        "nextSyncToken" : {
+          "type" : "string",
+          "description" : "The token that can be used to retrieve changes since the last request."
+        },
+        "totalItems" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of items in the list without pagination."
+        },
+        "totalPeople" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "**DEPRECATED** (Please use totalItems)\nThe total number of people in the list without pagination."
+        }
+      },
+      "x-restlet" : {
+        "section" : "TYPES"
+      }
+    },
+    "ListContactGroupsResponse" : {
+      "type" : "object",
+      "properties" : {
+        "contactGroups" : {
+          "type" : "array",
+          "description" : "The list of contact groups. Members of the contact groups are not\npopulated.",
+          "items" : {
+            "$ref" : "#/definitions/ContactGroup"
+          }
+        },
+        "nextPageToken" : {
+          "type" : "string",
+          "description" : "The token that can be used to retrieve the next page of results."
+        },
+        "nextSyncToken" : {
+          "type" : "string",
+          "description" : "The token that can be used to retrieve changes since the last request."
+        },
+        "totalItems" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The total number of items in the list without pagination."
+        }
+      },
+      "description" : "The response to a list contact groups request.",
+      "x-restlet" : {
+        "section" : "TYPES"
       }
     },
     "Locale" : {
       "type" : "object",
+      "properties" : {
+        "metadata" : {
+          "$ref" : "#/definitions/FieldMetadata"
+        },
+        "value" : {
+          "type" : "string",
+          "description" : "The well-formed [IETF BCP 47](https://tools.ietf.org/html/bcp47)\nlanguage tag representing the locale."
+        }
+      },
+      "description" : "A person's locale preference.",
       "x-restlet" : {
-        "section" : "Types"
+        "section" : "TYPES"
       }
     },
-    "Metadata" : {
+    "Membership" : {
       "type" : "object",
+      "properties" : {
+        "contactGroupMembership" : {
+          "$ref" : "#/definitions/ContactGroupMembership"
+        },
+        "domainMembership" : {
+          "$ref" : "#/definitions/DomainMembership"
+        },
+        "metadata" : {
+          "$ref" : "#/definitions/FieldMetadata"
+        }
+      },
+      "description" : "A person's read-only membership in a group.",
       "x-restlet" : {
-        "section" : "Types"
+        "section" : "TYPES"
+      }
+    },
+    "ModifyContactGroupMembersRequest" : {
+      "type" : "object",
+      "properties" : {
+        "resourceNamesToAdd" : {
+          "type" : "array",
+          "description" : "The resource names of the contact people to add in the form of in the form\n`people/`<var>person_id</var>.",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "resourceNamesToRemove" : {
+          "type" : "array",
+          "description" : "The resource names of the contact people to remove in the form of in the\nform of `people/`<var>person_id</var>.",
+          "items" : {
+            "type" : "string"
+          }
+        }
+      },
+      "description" : "A request to modify an existing contact group's members.",
+      "x-restlet" : {
+        "section" : "TYPES"
+      }
+    },
+    "ModifyContactGroupMembersResponse" : {
+      "type" : "object",
+      "properties" : {
+        "notFoundResourceNames" : {
+          "type" : "array",
+          "description" : "The contact people resource names that were not found.",
+          "items" : {
+            "type" : "string"
+          }
+        }
+      },
+      "description" : "The response to a modify contact group members request.",
+      "x-restlet" : {
+        "section" : "TYPES"
       }
     },
     "Name" : {
       "type" : "object",
+      "properties" : {
+        "displayName" : {
+          "type" : "string",
+          "description" : "The read-only display name formatted according to the locale specified by\nthe viewer's account or the `Accept-Language` HTTP header."
+        },
+        "displayNameLastFirst" : {
+          "type" : "string",
+          "description" : "The read-only display name with the last name first formatted according to\nthe locale specified by the viewer's account or the\n`Accept-Language` HTTP header."
+        },
+        "familyName" : {
+          "type" : "string",
+          "description" : "The family name."
+        },
+        "givenName" : {
+          "type" : "string",
+          "description" : "The given name."
+        },
+        "honorificPrefix" : {
+          "type" : "string",
+          "description" : "The honorific prefixes, such as `Mrs.` or `Dr.`"
+        },
+        "honorificSuffix" : {
+          "type" : "string",
+          "description" : "The honorific suffixes, such as `Jr.`"
+        },
+        "metadata" : {
+          "$ref" : "#/definitions/FieldMetadata"
+        },
+        "middleName" : {
+          "type" : "string",
+          "description" : "The middle name(s)."
+        },
+        "phoneticFamilyName" : {
+          "type" : "string",
+          "description" : "The family name spelled as it sounds."
+        },
+        "phoneticFullName" : {
+          "type" : "string",
+          "description" : "The full name spelled as it sounds."
+        },
+        "phoneticGivenName" : {
+          "type" : "string",
+          "description" : "The given name spelled as it sounds."
+        },
+        "phoneticHonorificPrefix" : {
+          "type" : "string",
+          "description" : "The honorific prefixes spelled as they sound."
+        },
+        "phoneticHonorificSuffix" : {
+          "type" : "string",
+          "description" : "The honorific suffixes spelled as they sound."
+        },
+        "phoneticMiddleName" : {
+          "type" : "string",
+          "description" : "The middle name(s) spelled as they sound."
+        }
+      },
+      "description" : "A person's name. If the name is a mononym, the family name is empty.",
       "x-restlet" : {
-        "section" : "Types"
-      }
-    },
-    "News" : {
-      "type" : "object",
-      "x-restlet" : {
-        "section" : "Types"
+        "section" : "TYPES"
       }
     },
     "Nickname" : {
       "type" : "object",
+      "properties" : {
+        "metadata" : {
+          "$ref" : "#/definitions/FieldMetadata"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The type of the nickname.",
+          "enum" : [ "DEFAULT", "MAIDEN_NAME", "INITIALS", "GPLUS", "OTHER_NAME" ]
+        },
+        "value" : {
+          "type" : "string",
+          "description" : "The nickname."
+        }
+      },
+      "description" : "A person's nickname.",
       "x-restlet" : {
-        "section" : "Types"
+        "section" : "TYPES"
       }
     },
-    "NicknameType" : {
+    "Occupation" : {
       "type" : "object",
+      "properties" : {
+        "metadata" : {
+          "$ref" : "#/definitions/FieldMetadata"
+        },
+        "value" : {
+          "type" : "string",
+          "description" : "The occupation; for example, `carpenter`."
+        }
+      },
+      "description" : "A person's occupation.",
       "x-restlet" : {
-        "section" : "Types"
+        "section" : "TYPES"
       }
     },
-    "ObjectType" : {
+    "Organization" : {
       "type" : "object",
+      "properties" : {
+        "current" : {
+          "type" : "boolean",
+          "description" : "True if the organization is the person's current organization;\nfalse if the organization is a past organization."
+        },
+        "department" : {
+          "type" : "string",
+          "description" : "The person's department at the organization."
+        },
+        "domain" : {
+          "type" : "string",
+          "description" : "The domain name associated with the organization; for example, `google.com`."
+        },
+        "endDate" : {
+          "$ref" : "#/definitions/Date"
+        },
+        "formattedType" : {
+          "type" : "string",
+          "description" : "The read-only type of the organization translated and formatted in the\nviewer's account locale or the `Accept-Language` HTTP header locale."
+        },
+        "jobDescription" : {
+          "type" : "string",
+          "description" : "The person's job description at the organization."
+        },
+        "location" : {
+          "type" : "string",
+          "description" : "The location of the organization office the person works at."
+        },
+        "metadata" : {
+          "$ref" : "#/definitions/FieldMetadata"
+        },
+        "name" : {
+          "type" : "string",
+          "description" : "The name of the organization."
+        },
+        "phoneticName" : {
+          "type" : "string",
+          "description" : "The phonetic name of the organization."
+        },
+        "startDate" : {
+          "$ref" : "#/definitions/Date"
+        },
+        "symbol" : {
+          "type" : "string",
+          "description" : "The symbol associated with the organization; for example, a stock ticker\nsymbol, abbreviation, or acronym."
+        },
+        "title" : {
+          "type" : "string",
+          "description" : "The person's job title at the organization."
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The type of the organization. The type can be custom or predefined.\nPossible values include, but are not limited to, the following:\n\n* `work`\n* `school`"
+        }
+      },
+      "description" : "A person's past or current organization. Overlapping date ranges are\npermitted.",
       "x-restlet" : {
-        "section" : "Types"
+        "section" : "TYPES"
       }
     },
-    "Page" : {
+    "Person" : {
       "type" : "object",
+      "properties" : {
+        "addresses" : {
+          "type" : "array",
+          "description" : "The person's street addresses.",
+          "items" : {
+            "$ref" : "#/definitions/Address"
+          }
+        },
+        "ageRange" : {
+          "type" : "string",
+          "description" : "**DEPRECATED** (Please use `person.ageRanges` instead)**\n\nThe person's read-only age range.",
+          "enum" : [ "AGE_RANGE_UNSPECIFIED", "LESS_THAN_EIGHTEEN", "EIGHTEEN_TO_TWENTY", "TWENTY_ONE_OR_OLDER" ]
+        },
+        "ageRanges" : {
+          "type" : "array",
+          "description" : "The person's read-only age ranges.",
+          "items" : {
+            "$ref" : "#/definitions/AgeRangeType"
+          }
+        },
+        "biographies" : {
+          "type" : "array",
+          "description" : "The person's biographies.",
+          "items" : {
+            "$ref" : "#/definitions/Biography"
+          }
+        },
+        "birthdays" : {
+          "type" : "array",
+          "description" : "The person's birthdays.",
+          "items" : {
+            "$ref" : "#/definitions/Birthday"
+          }
+        },
+        "braggingRights" : {
+          "type" : "array",
+          "description" : "The person's bragging rights.",
+          "items" : {
+            "$ref" : "#/definitions/BraggingRights"
+          }
+        },
+        "coverPhotos" : {
+          "type" : "array",
+          "description" : "The person's read-only cover photos.",
+          "items" : {
+            "$ref" : "#/definitions/CoverPhoto"
+          }
+        },
+        "emailAddresses" : {
+          "type" : "array",
+          "description" : "The person's email addresses.",
+          "items" : {
+            "$ref" : "#/definitions/EmailAddress"
+          }
+        },
+        "etag" : {
+          "type" : "string",
+          "description" : "The [HTTP entity tag](https://en.wikipedia.org/wiki/HTTP_ETag) of the\nresource. Used for web cache validation."
+        },
+        "events" : {
+          "type" : "array",
+          "description" : "The person's events.",
+          "items" : {
+            "$ref" : "#/definitions/Event"
+          }
+        },
+        "genders" : {
+          "type" : "array",
+          "description" : "The person's genders.",
+          "items" : {
+            "$ref" : "#/definitions/Gender"
+          }
+        },
+        "imClients" : {
+          "type" : "array",
+          "description" : "The person's instant messaging clients.",
+          "items" : {
+            "$ref" : "#/definitions/ImClient"
+          }
+        },
+        "interests" : {
+          "type" : "array",
+          "description" : "The person's interests.",
+          "items" : {
+            "$ref" : "#/definitions/Interest"
+          }
+        },
+        "locales" : {
+          "type" : "array",
+          "description" : "The person's locale preferences.",
+          "items" : {
+            "$ref" : "#/definitions/Locale"
+          }
+        },
+        "memberships" : {
+          "type" : "array",
+          "description" : "The person's read-only group memberships.",
+          "items" : {
+            "$ref" : "#/definitions/Membership"
+          }
+        },
+        "metadata" : {
+          "$ref" : "#/definitions/PersonMetadata"
+        },
+        "names" : {
+          "type" : "array",
+          "description" : "The person's names.",
+          "items" : {
+            "$ref" : "#/definitions/Name"
+          }
+        },
+        "nicknames" : {
+          "type" : "array",
+          "description" : "The person's nicknames.",
+          "items" : {
+            "$ref" : "#/definitions/Nickname"
+          }
+        },
+        "occupations" : {
+          "type" : "array",
+          "description" : "The person's occupations.",
+          "items" : {
+            "$ref" : "#/definitions/Occupation"
+          }
+        },
+        "organizations" : {
+          "type" : "array",
+          "description" : "The person's past or current organizations.",
+          "items" : {
+            "$ref" : "#/definitions/Organization"
+          }
+        },
+        "phoneNumbers" : {
+          "type" : "array",
+          "description" : "The person's phone numbers.",
+          "items" : {
+            "$ref" : "#/definitions/PhoneNumber"
+          }
+        },
+        "photos" : {
+          "type" : "array",
+          "description" : "The person's read-only photos.",
+          "items" : {
+            "$ref" : "#/definitions/Photo"
+          }
+        },
+        "relations" : {
+          "type" : "array",
+          "description" : "The person's relations.",
+          "items" : {
+            "$ref" : "#/definitions/Relation"
+          }
+        },
+        "relationshipInterests" : {
+          "type" : "array",
+          "description" : "The person's read-only relationship interests.",
+          "items" : {
+            "$ref" : "#/definitions/RelationshipInterest"
+          }
+        },
+        "relationshipStatuses" : {
+          "type" : "array",
+          "description" : "The person's read-only relationship statuses.",
+          "items" : {
+            "$ref" : "#/definitions/RelationshipStatus"
+          }
+        },
+        "residences" : {
+          "type" : "array",
+          "description" : "The person's residences.",
+          "items" : {
+            "$ref" : "#/definitions/Residence"
+          }
+        },
+        "resourceName" : {
+          "type" : "string",
+          "description" : "The resource name for the person, assigned by the server. An ASCII string\nwith a max length of 27 characters, in the form of\n`people/`<var>person_id</var>."
+        },
+        "skills" : {
+          "type" : "array",
+          "description" : "The person's skills.",
+          "items" : {
+            "$ref" : "#/definitions/Skill"
+          }
+        },
+        "taglines" : {
+          "type" : "array",
+          "description" : "The person's read-only taglines.",
+          "items" : {
+            "$ref" : "#/definitions/Tagline"
+          }
+        },
+        "urls" : {
+          "type" : "array",
+          "description" : "The person's associated URLs.",
+          "items" : {
+            "$ref" : "#/definitions/Url"
+          }
+        },
+        "userDefined" : {
+          "type" : "array",
+          "description" : "The person's user defined data.",
+          "items" : {
+            "$ref" : "#/definitions/UserDefined"
+          }
+        }
+      },
+      "description" : "Information about a person merged from various data sources such as the\nauthenticated user's contacts and profile data.\n\nMost fields can have multiple items. The items in a field have no guaranteed\norder, but each non-empty field is guaranteed to have exactly one field with\n`metadata.primary` set to true.",
       "x-restlet" : {
-        "section" : "Types"
+        "section" : "TYPES"
+      }
+    },
+    "PersonMetadata" : {
+      "type" : "object",
+      "properties" : {
+        "deleted" : {
+          "type" : "boolean",
+          "description" : "True if the person resource has been deleted. Populated only for\n[`connections.list`](/people/api/rest/v1/people.connections/list) requests\nthat include a sync token."
+        },
+        "linkedPeopleResourceNames" : {
+          "type" : "array",
+          "description" : "Resource names of people linked to this resource.",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "objectType" : {
+          "type" : "string",
+          "description" : "**DEPRECATED** (Please use\n`person.metadata.sources.profileMetadata.objectType` instead)\n\nThe type of the person object.",
+          "enum" : [ "OBJECT_TYPE_UNSPECIFIED", "PERSON", "PAGE" ]
+        },
+        "previousResourceNames" : {
+          "type" : "array",
+          "description" : "Any former resource names this person has had. Populated only for\n[`connections.list`](/people/api/rest/v1/people.connections/list) requests\nthat include a sync token.\n\nThe resource name may change when adding or removing fields that link a\ncontact and profile such as a verified email, verified phone number, or\nprofile URL.",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "sources" : {
+          "type" : "array",
+          "description" : "The sources of data for the person.",
+          "items" : {
+            "$ref" : "#/definitions/Source"
+          }
+        }
+      },
+      "description" : "The read-only metadata about a person.",
+      "x-restlet" : {
+        "section" : "TYPES"
+      }
+    },
+    "PersonResponse" : {
+      "type" : "object",
+      "properties" : {
+        "httpStatusCode" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "**DEPRECATED** (Please use status instead)\n\n[HTTP 1.1 status code]\n(http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html)."
+        },
+        "person" : {
+          "$ref" : "#/definitions/Person"
+        },
+        "requestedResourceName" : {
+          "type" : "string",
+          "description" : "The original requested resource name. May be different than the resource\nname on the returned person.\n\nThe resource name can change when adding or removing fields that link a\ncontact and profile such as a verified email, verified phone number, or a\nprofile URL."
+        },
+        "status" : {
+          "$ref" : "#/definitions/Status"
+        }
+      },
+      "description" : "The response for a single person",
+      "x-restlet" : {
+        "section" : "TYPES"
+      }
+    },
+    "PhoneNumber" : {
+      "type" : "object",
+      "properties" : {
+        "canonicalForm" : {
+          "type" : "string",
+          "description" : "The read-only canonicalized [ITU-T E.164](https://law.resource.org/pub/us/cfr/ibr/004/itu-t.E.164.1.2008.pdf)\nform of the phone number."
+        },
+        "formattedType" : {
+          "type" : "string",
+          "description" : "The read-only type of the phone number translated and formatted in the\nviewer's account locale or the `Accept-Language` HTTP header locale."
+        },
+        "metadata" : {
+          "$ref" : "#/definitions/FieldMetadata"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The type of the phone number. The type can be custom or predefined.\nPossible values include, but are not limited to, the following:\n\n* `home`\n* `work`\n* `mobile`\n* `homeFax`\n* `workFax`\n* `otherFax`\n* `pager`\n* `workMobile`\n* `workPager`\n* `main`\n* `googleVoice`\n* `other`"
+        },
+        "value" : {
+          "type" : "string",
+          "description" : "The phone number."
+        }
+      },
+      "description" : "A person's phone number.",
+      "x-restlet" : {
+        "section" : "TYPES"
       }
     },
     "Photo" : {
       "type" : "object",
+      "properties" : {
+        "default" : {
+          "type" : "boolean",
+          "description" : "True if the photo is a default photo;\nfalse if the photo is a user-provided photo."
+        },
+        "metadata" : {
+          "$ref" : "#/definitions/FieldMetadata"
+        },
+        "url" : {
+          "type" : "string",
+          "description" : "The URL of the photo. You can change the desired size by appending a query\nparameter `sz=`<var>size</var> at the end of the url. Example:\n`https://lh3.googleusercontent.com/-T_wVWLlmg7w/AAAAAAAAAAI/AAAAAAAABa8/00gzXvDBYqw/s100/photo.jpg?sz=50`"
+        }
+      },
+      "description" : "A person's read-only photo. A picture shown next to the person's name to\nhelp others recognize the person.",
       "x-restlet" : {
-        "section" : "Types"
+        "section" : "TYPES"
       }
     },
-    "UserType" : {
+    "ProfileMetadata" : {
       "type" : "object",
+      "properties" : {
+        "objectType" : {
+          "type" : "string",
+          "description" : "The profile object type.",
+          "enum" : [ "OBJECT_TYPE_UNSPECIFIED", "PERSON", "PAGE" ]
+        },
+        "userTypes" : {
+          "type" : "array",
+          "description" : "The user types.",
+          "items" : {
+            "type" : "string",
+            "enum" : [ "USER_TYPE_UNKNOWN", "GOOGLE_USER", "GPLUS_USER", "GOOGLE_APPS_USER" ]
+          }
+        }
+      },
+      "description" : "The read-only metadata about a profile.",
       "x-restlet" : {
-        "section" : "Types"
+        "section" : "TYPES"
       }
     },
-    "ConfigView" : {
+    "Relation" : {
       "type" : "object",
+      "properties" : {
+        "formattedType" : {
+          "type" : "string",
+          "description" : "The type of the relation translated and formatted in the viewer's account\nlocale or the locale specified in the Accept-Language HTTP header."
+        },
+        "metadata" : {
+          "$ref" : "#/definitions/FieldMetadata"
+        },
+        "person" : {
+          "type" : "string",
+          "description" : "The name of the other person this relation refers to."
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The person's relation to the other person. The type can be custom or predefined.\nPossible values include, but are not limited to, the following values:\n\n* `spouse`\n* `child`\n* `mother`\n* `father`\n* `parent`\n* `brother`\n* `sister`\n* `friend`\n* `relative`\n* `domesticPartner`\n* `manager`\n* `assistant`\n* `referredBy`\n* `partner`"
+        }
+      },
+      "description" : "A person's relation to another person.",
       "x-restlet" : {
-        "section" : "Types"
+        "section" : "TYPES"
+      }
+    },
+    "RelationshipInterest" : {
+      "type" : "object",
+      "properties" : {
+        "formattedValue" : {
+          "type" : "string",
+          "description" : "The value of the relationship interest translated and formatted in the\nviewer's account locale or the locale specified in the Accept-Language\nHTTP header."
+        },
+        "metadata" : {
+          "$ref" : "#/definitions/FieldMetadata"
+        },
+        "value" : {
+          "type" : "string",
+          "description" : "The kind of relationship the person is looking for. The value can be custom\nor predefined. Possible values include, but are not limited to, the\nfollowing values:\n\n* `friend`\n* `date`\n* `relationship`\n* `networking`"
+        }
+      },
+      "description" : "A person's read-only relationship interest .",
+      "x-restlet" : {
+        "section" : "TYPES"
+      }
+    },
+    "RelationshipStatus" : {
+      "type" : "object",
+      "properties" : {
+        "formattedValue" : {
+          "type" : "string",
+          "description" : "The read-only value of the relationship status translated and formatted in\nthe viewer's account locale or the `Accept-Language` HTTP header locale."
+        },
+        "metadata" : {
+          "$ref" : "#/definitions/FieldMetadata"
+        },
+        "value" : {
+          "type" : "string",
+          "description" : "The relationship status. The value can be custom or predefined.\nPossible values include, but are not limited to, the following:\n\n* `single`\n* `inARelationship`\n* `engaged`\n* `married`\n* `itsComplicated`\n* `openRelationship`\n* `widowed`\n* `inDomesticPartnership`\n* `inCivilUnion`"
+        }
+      },
+      "description" : "A person's read-only relationship status.",
+      "x-restlet" : {
+        "section" : "TYPES"
+      }
+    },
+    "Residence" : {
+      "type" : "object",
+      "properties" : {
+        "current" : {
+          "type" : "boolean",
+          "description" : "True if the residence is the person's current residence;\nfalse if the residence is a past residence."
+        },
+        "metadata" : {
+          "$ref" : "#/definitions/FieldMetadata"
+        },
+        "value" : {
+          "type" : "string",
+          "description" : "The address of the residence."
+        }
+      },
+      "description" : "A person's past or current residence.",
+      "x-restlet" : {
+        "section" : "TYPES"
+      }
+    },
+    "Skill" : {
+      "type" : "object",
+      "properties" : {
+        "metadata" : {
+          "$ref" : "#/definitions/FieldMetadata"
+        },
+        "value" : {
+          "type" : "string",
+          "description" : "The skill; for example, `underwater basket weaving`."
+        }
+      },
+      "description" : "A skill that the person has.",
+      "x-restlet" : {
+        "section" : "TYPES"
+      }
+    },
+    "Source" : {
+      "type" : "object",
+      "properties" : {
+        "etag" : {
+          "type" : "string",
+          "description" : "**Only populated in `person.metadata.sources`.**\n\nThe [HTTP entity tag](https://en.wikipedia.org/wiki/HTTP_ETag) of the\nsource. Used for web cache validation."
+        },
+        "id" : {
+          "type" : "string",
+          "description" : "The unique identifier within the source type generated by the server."
+        },
+        "profileMetadata" : {
+          "$ref" : "#/definitions/ProfileMetadata"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The source type.",
+          "enum" : [ "SOURCE_TYPE_UNSPECIFIED", "ACCOUNT", "PROFILE", "DOMAIN_PROFILE", "CONTACT" ]
+        },
+        "updateTime" : {
+          "type" : "string",
+          "description" : "**Only populated in `person.metadata.sources`.**\n\nLast update timestamp of this source."
+        }
+      },
+      "description" : "The source of a field.",
+      "x-restlet" : {
+        "section" : "TYPES"
       }
     },
     "Status" : {
       "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The status code, which should be an enum value of google.rpc.Code."
+        },
+        "details" : {
+          "type" : "array",
+          "description" : "A list of messages that carry the error details.  There is a common set of\nmessage types for APIs to use.",
+          "items" : {
+            "type" : "object"
+          }
+        },
+        "message" : {
+          "type" : "string",
+          "description" : "A developer-facing error message, which should be in English. Any\nuser-facing error message should be localized and sent in the\ngoogle.rpc.Status.details field, or localized by the client."
+        }
+      },
+      "description" : "The `Status` type defines a logical error model that is suitable for different\nprogramming environments, including REST APIs and RPC APIs. It is used by\n[gRPC](https://github.com/grpc). The error model is designed to be:\n\n- Simple to use and understand for most users\n- Flexible enough to meet unexpected needs\n\n# Overview\n\nThe `Status` message contains three pieces of data: error code, error message,\nand error details. The error code should be an enum value of\ngoogle.rpc.Code, but it may accept additional error codes if needed.  The\nerror message should be a developer-facing English message that helps\ndevelopers *understand* and *resolve* the error. If a localized user-facing\nerror message is needed, put the localized message in the error details or\nlocalize it in the client. The optional error details may contain arbitrary\ninformation about the error. There is a predefined set of error detail types\nin the package `google.rpc` that can be used for common error conditions.\n\n# Language mapping\n\nThe `Status` message is the logical representation of the error model, but it\nis not necessarily the actual wire format. When the `Status` message is\nexposed in different client libraries and different wire protocols, it can be\nmapped differently. For example, it will likely be mapped to some exceptions\nin Java, but more likely mapped to some error codes in C.\n\n# Other uses\n\nThe error model and the `Status` message can be used in a variety of\nenvironments, either with or without APIs, to provide a\nconsistent developer experience across different environments.\n\nExample uses of this error model include:\n\n- Partial errors. If a service needs to return partial errors to the client,\n    it may embed the `Status` in the normal response to indicate the partial\n    errors.\n\n- Workflow errors. A typical workflow has multiple steps. Each step may\n    have a `Status` message for error reporting.\n\n- Batch operations. If a client uses batch request and batch response, the\n    `Status` message should be used directly inside batch response, one for\n    each error sub-response.\n\n- Asynchronous operations. If an API call embeds asynchronous operation\n    results in its response, the status of those operations should be\n    represented directly using the `Status` message.\n\n- Logging. If some API errors are stored in logs, the message `Status` could\n    be used directly after any stripping needed for security/privacy reasons.",
       "x-restlet" : {
-        "section" : "Types"
+        "section" : "TYPES"
+      }
+    },
+    "Tagline" : {
+      "type" : "object",
+      "properties" : {
+        "metadata" : {
+          "$ref" : "#/definitions/FieldMetadata"
+        },
+        "value" : {
+          "type" : "string",
+          "description" : "The tagline."
+        }
+      },
+      "description" : "A read-only brief one-line description of the person.",
+      "x-restlet" : {
+        "section" : "TYPES"
+      }
+    },
+    "UpdateContactGroupRequest" : {
+      "type" : "object",
+      "properties" : {
+        "contactGroup" : {
+          "$ref" : "#/definitions/ContactGroup"
+        }
+      },
+      "description" : "A request to update an existing contact group. Only the name can be updated.",
+      "x-restlet" : {
+        "section" : "TYPES"
+      }
+    },
+    "Url" : {
+      "type" : "object",
+      "properties" : {
+        "formattedType" : {
+          "type" : "string",
+          "description" : "The read-only type of the URL translated and formatted in the viewer's\naccount locale or the `Accept-Language` HTTP header locale."
+        },
+        "metadata" : {
+          "$ref" : "#/definitions/FieldMetadata"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The type of the URL. The type can be custom or predefined.\nPossible values include, but are not limited to, the following:\n\n* `home`\n* `work`\n* `blog`\n* `profile`\n* `homePage`\n* `ftp`\n* `reservations`\n* `appInstallPage`: website for a Google+ application.\n* `other`"
+        },
+        "value" : {
+          "type" : "string",
+          "description" : "The URL."
+        }
+      },
+      "description" : "A person's associated URLs.",
+      "x-restlet" : {
+        "section" : "TYPES"
+      }
+    },
+    "UserDefined" : {
+      "type" : "object",
+      "properties" : {
+        "key" : {
+          "type" : "string",
+          "description" : "The end user specified key of the user defined data."
+        },
+        "metadata" : {
+          "$ref" : "#/definitions/FieldMetadata"
+        },
+        "value" : {
+          "type" : "string",
+          "description" : "The end user specified value of the user defined data."
+        }
+      },
+      "description" : "Arbitrary user data that is populated by the end users.",
+      "x-restlet" : {
+        "section" : "TYPES"
       }
     }
   },
   "x-restlet" : {
     "sections" : {
-      "Organizations" : {
-        "description" : "Account's organizational tree is composed of organizational units which let you manage your users in a logical and hierarchical structure."
-      },
-      "Companies" : {
-        "description" : "For a given product, create a company. "
-      },
-      "Peoples" : { },
-      "Profiles" : { },
-      "Services" : { },
-      "Types" : { },
-      "Products" : { }
+      "CONTACTS" : { },
+      "PEOPLES" : { },
+      "TYPES" : { }
     }
   }
 }
